@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Locker Room</title>
+<style>
+  :root{
+    --bg:#f7f5ef;
+    --card:#ffffff;
+    --ink:#1f2a24;
+    --ink-soft:#5b6a61;
+    --accent:#2f5d4c;
+    --accent-ink:#ffffff;
+    --line:#e2ddd0;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#15181a;
+      --card:#1f2427;
+      --ink:#eceae4;
+      --ink-soft:#a4ac9f;
+      --accent:#5fae8c;
+      --accent-ink:#0f1310;
+      --line:#31383a;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    font-size:18px;
+  }
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:48px 20px 60px;
+  }
+  header{
+    margin-bottom:32px;
+  }
+  h1{
+    font-family:Georgia,"Iowan Old Style",serif;
+    font-size:2.5rem;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  .tagline{
+    color:var(--ink-soft);
+    font-size:1.15rem;
+    margin:0;
+    max-width:46ch;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px;
+    margin-bottom:20px;
+  }
+  .poll-card{
+    background:var(--accent);
+    color:var(--accent-ink);
+    border:none;
+  }
+  .poll-card h2{
+    font-size:1.35rem;
+    margin:0 0 6px;
+  }
+  .poll-card p{
+    margin:0 0 16px;
+    font-size:1rem;
+  }
+  .card.poll-card p{
+    color:#ffffff;
+  }
+  .poll-btn{
+    display:inline-block;
+    background:var(--accent-ink);
+    color:var(--accent);
+    text-decoration:none;
+    font-weight:700;
+    padding:13px 22px;
+    border-radius:9px;
+    font-size:1.05rem;
+  }
+  .card h2{
+    font-size:1.25rem;
+    margin:0 0 10px;
+  }
+  .card p, .card li{
+    color:var(--ink-soft);
+    font-size:1.05rem;
+  }
+  .card ol{
+    margin:0;
+    padding-left:20px;
+  }
+  .card li{
+    margin-bottom:6px;
+  }
+  .card li::marker{
+    color:var(--accent);
+    font-weight:700;
+  }
+  details.folder > summary{
+    font-size:1.2rem;
+    font-weight:700;
+    cursor:pointer;
+    list-style:none;
+  }
+  details.folder > summary::-webkit-details-marker{display:none;}
+  details.folder > summary::before{
+    content:"▸";
+    display:inline-block;
+    margin-right:8px;
+    color:var(--accent);
+    transition:transform 0.15s ease;
+  }
+  details.folder[open] > summary::before{
+    transform:rotate(90deg);
+  }
+  .folder-body{
+    margin-top:14px;
+    padding-left:6px;
+    border-left:2px solid var(--line);
+  }
+  details.subfolder{
+    margin:0 0 10px 14px;
+  }
+  details.subfolder > summary{
+    font-size:1.05rem;
+    font-weight:600;
+    cursor:pointer;
+    list-style:none;
+  }
+  details.subfolder > summary::-webkit-details-marker{display:none;}
+  details.subfolder > summary::before{
+    content:"▸";
+    display:inline-block;
+    margin-right:6px;
+    color:var(--ink-soft);
+    font-size:0.8rem;
+    transition:transform 0.15s ease;
+  }
+  details.subfolder[open] > summary::before{
+    transform:rotate(90deg);
+  }
+  .folder-empty{
+    color:var(--ink-soft);
+    font-size:0.98rem;
+    margin:8px 0 0 20px;
+  }
+  footer{
+    color:var(--ink-soft);
+    font-size:0.8rem;
+    text-align:center;
+    margin-top:32px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>The Locker Room</h1>
+    <p class="tagline">Men committed to leading by example and holding each other accountable to God's calling.</p>
+  </header>
+
+  <div class="card poll-card">
+    <h2>🎥 Join the meeting</h2>
+    <p>Hop into our Discord video call.</p>
+    <a class="poll-btn" href="https://discord.gg/RfCwqGHJx7">Join the meeting</a>
+  </div>
+
+  <div class="card poll-card">
+    <h2>📖 Pick the next book + meetup time</h2>
+    <p>Rank three book options and let us know what days/times work for you.</p>
+    <a class="poll-btn" href="new-book-survey.html">Go to the poll</a>
+  </div>
+
+  <div class="card">
+    <h2>Mission Statement</h2>
+    <p>Our mission statement is to audaciously live and lead by example. To utilize the unique giftings God has granted us to lead, influence, and encourage each other and the watching world towards God&rsquo;s divine will and way. We resolve to hold one another accountable, encourage growth and development, and challenge each other to be attentive and responsive to God&rsquo;s calling in each other&rsquo;s unique way. We aim to engage in fellowship in order to embolden ourselves and each other to more effectively go forth as credible witnesses and embody what a man of God is.</p>
+  </div>
+
+  <div class="card">
+    <h2>How it works</h2>
+    <ol>
+      <li>Vote in the poll above for the next book.</li>
+      <li>We'll lock in the book once the votes are in.</li>
+      <li>Show up ready to rock and roll at one of the meeting times we select.</li>
+      <li>Check below for the Meeting Notes if you can't make a week!</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <details class="folder">
+      <summary>📁 Meeting Notes</summary>
+      <div class="folder-body">
+        <details class="subfolder">
+          <summary>📄 Becoming a King</summary>
+          <p class="folder-empty">No notes uploaded yet.</p>
+        </details>
+        <details class="subfolder">
+          <summary>📄 Wild at Heart</summary>
+          <p class="folder-empty">No notes uploaded yet.</p>
+        </details>
+      </div>
+    </details>
+  </div>
+
+  <footer>The Locker Room</footer>
+</div>
+</body>
+</html>
