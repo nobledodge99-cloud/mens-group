@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wild at Heart — Meeting Notes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f4efe2;
+    --cream-card: #fffdf6;
+    --forest-dark: #1e3a2b;
+    --forest: #2f5233;
+    --sage: #8aa88f;
+    --sage-light: #e7efe4;
+    --border: #d9cdb2;
+    --accent: #c1662f;
+    --text-main: #2a2a22;
+    --text-soft: #6b6a5c;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--text-main);
+    font-family: 'Lora', serif;
+    line-height: 1.6;
+  }
+
+  .back-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 500;
+    background: var(--cream-card);
+    border: 1px solid var(--border);
+    color: var(--forest-dark);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .back-btn:hover { background: var(--sage-light); }
+
+  .header {
+    background: var(--forest-dark);
+    color: var(--cream);
+    padding: 64px 24px 40px;
+    text-align: center;
+  }
+  .header h1 {
+    margin: 0 0 8px;
+    font-weight: 600;
+    font-size: 2.1rem;
+    letter-spacing: 0.5px;
+  }
+  .header p {
+    margin: 0;
+    color: var(--sage-light);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+
+  nav.toc {
+    background: var(--cream-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 28px;
+    margin-bottom: 40px;
+  }
+  nav.toc h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--forest);
+    margin: 0 0 12px;
+  }
+  nav.toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 2;
+    column-gap: 24px;
+  }
+  nav.toc li { break-inside: avoid; margin-bottom: 8px; }
+  nav.toc a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-bottom: 1px dotted var(--sage);
+  }
+  nav.toc a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  section.card {
+    background: var(--cream-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 30px 32px;
+    margin-bottom: 28px;
+    scroll-margin-top: 24px;
+  }
+
+  section.card .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  section.card h2 {
+    margin: 0 0 18px;
+    color: var(--forest-dark);
+    font-size: 1.35rem;
+    border-bottom: 2px solid var(--sage);
+    padding-bottom: 10px;
+  }
+
+  section.card h3 {
+    font-size: 1.02rem;
+    color: var(--forest);
+    margin: 22px 0 8px;
+  }
+
+  section.card p, section.card li { font-size: 0.98rem; }
+  section.card ul { margin: 0 0 4px; padding-left: 22px; }
+  section.card li { margin-bottom: 6px; }
+
+  .verse {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.76rem;
+    background: var(--sage-light);
+    color: var(--forest-dark);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+
+  .pearl {
+    background: var(--sage-light);
+    border-left: 4px solid var(--sage);
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin: 14px 0;
+    font-style: italic;
+    color: var(--forest-dark);
+  }
+
+  .prayer {
+    background: #fbf6ea;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 20px;
+  }
+  .prayer .case-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .prayer ul { margin: 0; padding-left: 20px; }
+  .prayer li { font-size: 0.92rem; margin-bottom: 5px; }
+
+  .note {
+    font-size: 0.88rem;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+
+  .gap-banner {
+    background: #f6e9d8;
+    border: 1px dashed var(--accent);
+    color: var(--forest-dark);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    padding: 12px 18px;
+    border-radius: 8px;
+    margin-bottom: 28px;
+  }
+
+  /* Side nav */
+  .sidenav-toggle {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: var(--forest-dark);
+    color: var(--cream);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    border: none;
+    padding: 14px 8px;
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
+    z-index: 400;
+  }
+  .sidenav-panel {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 240px;
+    height: 100%;
+    background: var(--cream-card);
+    border-left: 1px solid var(--border);
+    padding: 70px 20px 20px;
+    overflow-y: auto;
+    transition: right 0.25s ease;
+    z-index: 450;
+  }
+  .sidenav-panel.open { right: 0; }
+  .sidenav-panel h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-top: 0;
+  }
+  .sidenav-panel ul { list-style: none; padding: 0; margin: 0; }
+  .sidenav-panel li { margin-bottom: 10px; }
+  .sidenav-panel a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.88rem;
+  }
+  .sidenav-panel a.active { color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 640px) {
+    nav.toc ul { columns: 1; }
+    section.card { padding: 22px 18px; }
+  }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-btn">&larr; Back to Study Guides</a>
+
+<button class="sidenav-toggle" id="sidenavToggle">Sections</button>
+<div class="sidenav-panel" id="sidenavPanel">
+  <h3>Jump to</h3>
+  <ul id="sidenavList"></ul>
+</div>
+
+<div class="header">
+  <h1>Wild at Heart</h1>
+  <p>The Locker Room — Discussion &amp; Prayer Notes</p>
+</div>
+
+<div class="container">
+
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#ch1">5/31 — Ch. 1</a></li>
+      <li><a href="#ch3">7/19 — Ch. 3</a></li>
+      <li><a href="#ch4">7/26 — Ch. 4</a></li>
+      <li><a href="#ch5">8/2 — Ch. 5</a></li>
+      <li><a href="#ch6">8/9 — Ch. 6</a></li>
+      <li><a href="#ch7">8/16 — Ch. 7</a></li>
+      <li><a href="#ch8">8/23 — Ch. 8</a></li>
+      <li><a href="#ch9">8/30 — Ch. 9</a></li>
+    </ul>
+  </nav>
+
+  <div class="gap-banner">Note: no notes on file for Chapter 2 — there's a jump from 5/31 (Ch. 1) straight to 7/19 (Ch. 3).</div>
+
+  <section class="card" id="ch1">
+    <div class="meta">5/31/26 &middot; Chapter 1</div>
+    <h2>Wild at Heart</h2>
+    <p class="note">"Man was made in the image of God... and my God is a warrior." <span class="verse">Exodus 15:3</span></p>
+
+    <h3>DT #1: A man's heart reflects the man... <span class="verse">Proverbs 27:19</span></h3>
+    <ul>
+      <li>A man's heart is meant to be wild — your values/ethos/heart is the reflection of you as a man.</li>
+      <li>What do you do when no one's watching — how would you treat a complete stranger?</li>
+      <li>Almost harder to lean on God and project His love and values when times are good.</li>
+    </ul>
+
+    <h3>DT #2: Christianity, as it currently is, has done damage to masculinity.</h3>
+    <ul>
+      <li>Your faith is meant to be projected, raw, and passionate — church has become a polite, watered-down ceremony, even prayer: "bow your head and close your eyes."</li>
+      <li>We need the "dangerous men" to enact change, to spread the word and love and passion of God — we need the fire, passion, excitement, and adventure in following God.</li>
+      <li>Problem may not even lie with "performative Christianity" but with passivity and lukewarm faith — we need to be vigilant and dangerous towards sin, attacks, and advances of the devil.</li>
+      <li>Good men aren't violent, but they're capable of it (Jordan Peterson quote).</li>
+      <li>The modern world glorifies sedentary life — distracts from what we were called to do, who we were meant to be.</li>
+    </ul>
+
+    <h3>DQ: What was God's intention when making man to have something fierce in his heart?</h3>
+    <ul>
+      <li>The sense of responsibility to protect, provide, and lead my family — need to lead your wife and children before you lead anyone else.</li>
+      <li>Man yearns for peace and yet seeks war — I get satisfaction from doing really hard stuff. Men are builders, innovators, conquerors, warriors — God created man to create — the brick and mortar of earth.</li>
+      <li>Put God first, your wife second, your kids third, and yourself last.</li>
+      <li>Almost primal — Adam formed directly from the earth, at our origin we were built from dust: rugged, tough, strong. <span class="verse">Genesis 2:4-8</span></li>
+    </ul>
+
+    <h3>DQ: What purpose does having "a beauty to love" serve?</h3>
+    <ul>
+      <li>Purpose, inspiration, drive — our "why" — why we fight, do good, live to provide for our beauty/family, live as men with honor, courage, integrity.</li>
+      <li>It isn't as fulfilling to be successful if you have no one to share it with — beauty to love results in emptiness if you're just providing for self.</li>
+      <li>Motivation — helps get you back on track if you start to slip.</li>
+      <li>Men were designed to lead and provide — having a witness to your life gives purpose and meaning, or else you're just a lonely man fighting lonely battles.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Prayers for Jack's official offer for job/role and guidance</li>
+        <li>John's brother getting married</li>
+        <li>Good turnout for John's discussion — getting his name out there and professional growth</li>
+        <li>Chan's training and Anna's health with pregnancy (hopefully baby comes after training)</li>
+        <li>Nate and Catherine and their new pregnancy</li>
+        <li>Logan and Bem's wedding soon</li>
+        <li>Noble and Konrad's last Year 1 medical school exam</li>
+        <li>Kenny's legal case</li>
+        <li>Jake Wilson's continued recovery</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch3">
+    <div class="meta">7/19/26 &middot; Chapter 3</div>
+    <h2>Staying Wild</h2>
+
+    <h3>DQ #1: When we begin to lose touch with living wildly, that innate side of us may begin to die — how can we ensure we don't let that part of us die?</h3>
+    <ul>
+      <li>Important to have your own "small tribe" to fall back on and draw strength from — helps to maintain focus and diligence.</li>
+      <li>Keeping your mind sharp and attuned to God's will. Also being present.</li>
+      <li>"No man has the right to be an amateur" — Socrates; we must be good stewards of what God's blessed us with.</li>
+    </ul>
+
+    <h3>DT #1: "For after years of living in a cage, a lion no longer even believes it is a lion."</h3>
+    <ul>
+      <li>Routine frustration; must attack and be grateful for everyday — embrace growth: spirituality, physicality, and mentally.</li>
+      <li>People aren't living the way they were called to by God.</li>
+      <li>Explore, discover, defend, and protect — translating that to our time is making out your God-given potential.</li>
+      <li>Getting into the mentality that Monday sets the tone for the week; can't fall into the trap of content.</li>
+    </ul>
+
+    <h3>DQ #2: How can we replace anger, lust, and fear with valiance and dangerousness?</h3>
+    <ul>
+      <li>Being intentional about what we're putting into our minds and being thoughtful with our specific outlets.</li>
+      <li>Must recognize and take accountability for our shortcomings/weaknesses and, through prayer and petition, lay them at the cross.</li>
+      <li>Honesty is difficult — need to be specific and intentional with facing your shortcomings.</li>
+      <li>The negativity in the world exists to demonstrate the juxtaposition between good and evil — with God we must strive towards goodness.</li>
+    </ul>
+
+    <h3>DT #2: It's no coincidence that many men fall into an affair, not for love...</h3>
+    <ul>
+      <li>Focusing on what God's called you to will help you to avoid the pitfalls of life; the more you have, the more you have to lose.</li>
+    </ul>
+    <p class="pearl">Let us not pick only those battles we are sure to win, only those adventures we are sure to handle, only those beauties we are sure to rescue. Rather — let us live with passion, purpose, and intentionality, being good stewards of our God-given talents and abilities to give Him the glory and praise.</p>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Solid start to the school year for Noble and Konrad</li>
+        <li>Logan's truck project (transmission)</li>
+        <li>2 new cars for the family (Chandler) — white Highlander</li>
+        <li>Chan's potential job switch — wisdom and guidance</li>
+        <li>Sense of direction for Jack</li>
+        <li>Hoov's chats and continued success at work</li>
+        <li>Jon's brother's new wedding</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch4">
+    <div class="meta">7/26/26 &middot; Chapter 4</div>
+    <h2>The Question Every Man Carries</h2>
+
+    <h3>DT #1: "Do I have what it takes? Am I powerful? Until a man knows he's a man, he will forever be trying to prove he is one, while at the same time shrinking from anything that might reveal he is not."</h3>
+    <ul>
+      <li>Powerful — growing into manhood, started feeling like a man when I could exert physical power.</li>
+      <li>When you understand that you're the decision maker and provider and everything is on you — can be daunting, sort of just have to settle into it.</li>
+    </ul>
+
+    <h3>DQ #1: What are some of the most important aspects of fatherhood and mentorship?</h3>
+    <ul>
+      <li>Massively important in the development of young men — helps to give direction, wisdom, and purpose; should sew into others just as you've been sewn into.</li>
+      <li>Gotta show 'em the way — your role is to teach and lead by example, instilling confidence they can continue when I'm gone.</li>
+      <li>Father's consistency is important — let kids reason/respond but still teach/correct effectively (not out of random).</li>
+    </ul>
+
+    <h3>DQ #2: How important is our perceived strength/dangerousness — how important is it that others view us that way?</h3>
+    <ul>
+      <li>"Men should be dangerous" — no virtue in self-control if you have no ability to do anything out of weakness — the ability and knowing to have the ability to be dangerous/powerful is important to how you respond.</li>
+      <li>Your confidence in your own capacity to enact change/exert force/authority is what's most important.</li>
+      <li>In some scenarios — father, mentor, leader — I feel like it's important for your sons, mentees, or subordinates to hold the perception that we are powerful/strong/dangerous.</li>
+    </ul>
+
+    <h3>DT #2: "But behind me was a string of casualties — people I had hurt, or dismissed."</h3>
+    <ul>
+      <li>As I look back into the Word and God's will — how can I reconcile my past where I may have caused unnecessary drag to others.</li>
+    </ul>
+
+    <h3>DT #3: ...two basic options — overcompensation vs. passive (retreating men): driven (violent man), passive (retreating men).</h3>
+    <ul>
+      <li>Obviously a mix of both — sometimes you need to retreat to regroup in order to proceed in alignment and confidence.</li>
+      <li>Important to have an understanding of our roots and move forward with your own definition of what being a man actually is for you.</li>
+      <li>Strength in retreating and being passionate — important for us to personally define the contexts in which those are employed.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Logan's wisdom and know-how to fix up the truck</li>
+        <li>Peace with the past and wisdom/direction for Jackson</li>
+        <li>Noble, Bem, and Konrad's COMAT exam</li>
+        <li>Chan and work (direction/wisdom)</li>
+        <li>Anna's continued postpartum health/recovery</li>
+        <li>John's continued success at work</li>
+        <li>Nate and Catherine's marriage and her health through pregnancy</li>
+        <li>Kenny's legal case</li>
+        <li>Charlie keeps being Charlie</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch5">
+    <div class="meta">8/2/26 &middot; Chapter 5</div>
+    <h2>The Wound</h2>
+
+    <h3>DT #1: Nothing worth having comes without some kind of fight.</h3>
+    <ul>
+      <li>Even our relationship with God — the world is constantly trying to rip us apart.</li>
+      <li>Money-thrown-into-the-fire story — effort gives value.</li>
+      <li>Anything worth something is worth competing for — the process of earning something is important.</li>
+    </ul>
+
+    <h3>DQ #1: Do you believe the "Christian poster-boy" — quiet, docile, nonviolent/nonpassionate man — is what God wanted for man, is that our design?</h3>
+    <ul>
+      <li>God designed us to be creators, strong, passionate — not passive, weak, and docile. Men need pressure to grow and provide for their families and others.</li>
+      <li>Men are meant to lead by example with wisdom, humility, integrity, passion, and strength. Biggest struggle is staying connected to that dangerous/godly part of you despite the world's attempts to emasculate you.</li>
+      <li>Man's ability to "try to figure it out" is massively important. It's also important to be surrounded with other strong men to further encourage masculine boldness and passion.</li>
+    </ul>
+
+    <h3>DQ #2: How can we, as a group, resolve to stay dangerous — spiritually, physically, and emotionally/relationally?</h3>
+    <ul>
+      <li>Staying dangerous is getting better every day: confidence, being bold, and staying consistent are how you stay dangerous — can't make decisions based on other people's satisfaction, should be aligned with God's will → discipline. When you get/achieve something super special, remember how you got there and who was there when you did.</li>
+    </ul>
+
+    <h3>DT #2: Yes, a man is a dangerous thing. So is a scalpel.</h3>
+    <ul>
+      <li>Preparation and intentionality build dangerousness, so when they're called to act they can act with precision.</li>
+      <li>God wouldn't put you in a situation you aren't able to surmount — take heart and have faith that your strength with God is sufficient.</li>
+    </ul>
+
+    <h3>DQ #3: How many times have we accepted challenges/immediate defeat based on the question of "Am I good enough?"</h3>
+    <ul>
+      <li>Constantly — the answer is typically yes, but it does present an almost constant challenge. Am I good enough for X, Y, Z? I definitely feel that pressure. Risks can be scary, but they also provide an opportunity to have God work through you.</li>
+      <li>Teddy Roosevelt quote — man in the arena.</li>
+      <li>Have to sharpen/heighten/train yourself constantly in order to grow and live with a bold confidence and tackle the objectives that you might not know if you can really handle.</li>
+      <li>Must be sharpening yourself — can't just "leave it to God," you need to work hard and God will come alongside you.</li>
+    </ul>
+
+    <p class="pearl">Discussion point: Eve is a garden of delight (Song of Songs 4:16) — but she's not everything you want, everything you need — not even close.</p>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Kenny's legal case</li>
+        <li>Cam's dad has a brain tumor — chemo/radiation</li>
+        <li>Chandler's direction in terms of work, Anna's continued recovery</li>
+        <li>Wisdom and direction for Jack</li>
+        <li>Logan's truck project</li>
+        <li>Nate, Catherine, and baby JJ</li>
+        <li>Jon's continued professional growth</li>
+        <li>Chase's ankle</li>
+        <li>Noble, Konrad, and Bem's 1st OMS-II exam</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch6">
+    <div class="meta">8/9/26 &middot; Chapter 6</div>
+    <h2>The Mask</h2>
+
+    <h3>DQ #1: Can you think of times in your life where you can feel yourself wearing a mask — how does that make you feel? How can we choose to always live without the mask?</h3>
+    <ul>
+      <li>When you're in an unfamiliar place, sometimes you wear the mask, but you can eventually lose yourself within the fake persona.</li>
+      <li>How you want people to see you — "normal thing that happens" — try to change my perspective to not be so focused on how others see me.</li>
+      <li>Authenticity/honesty/strength can be uncomfortable — a more watered-down version could be more palatable, sometimes necessary.</li>
+      <li>Try to use the mask to hide your own inequities.</li>
+    </ul>
+
+    <h3>DQ #2: What's the importance of trials, challenges, and adversity in our journey towards being a godly man?</h3>
+    <ul>
+      <li>Paramount to grow in not only your physical/mental state but also your faith. Adversity allows for a strengthening and exercising of your faith; comfort/safety can shrink our faith.</li>
+      <li>Moving through obstacles can give you a chip on your shoulder and confidence instilled within you to exercise your faith in the future.</li>
+      <li>The challenge makes the man — tiredness makes a coward of us all — seeing how you measure up to the challenges.</li>
+    </ul>
+
+    <h3>DQ #3: Who here believes they acutely understand a wound they have or weakness they've identified — what do you do to counteract it?</h3>
+    <ul>
+      <li>Practicing gratefulness for where I am, not really thanking God for how much He's blessed you with, staying present.</li>
+      <li>Always "keeping the peace" can lead to a further exacerbation of the problem — sometimes you have to put your foot down and set the tone for you and your family.</li>
+    </ul>
+
+    <h3>DQ #4: How many times/who can speak to the uncertainty of life — when you're just like, "God, what/why?"</h3>
+    <ul>
+      <li>Starting school in a new place at a DO program; fearful about a different route, coming to a new town — asking God, "where did I go wrong?" Just because your prayers were answered in a different way than you expected doesn't mean it's not for you.</li>
+      <li>Current stage of life — jumping right into being the leader of a young family; have to be able to make quick, tough decisions. Having a constant, intentional relationship with God is the only way to walk through difficult circumstances.</li>
+    </ul>
+
+    <h3>DT #1: A man needs a much bigger orbit than a woman. He needs a mission, a life purpose, and he needs to know his name.</h3>
+    <ul>
+      <li>Women do not validate/grant masculinity/God's will and direction — they're massively important and we've been called to provide and protect them — but our mission and purpose come exclusively from God.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Logan's truck building process</li>
+        <li>Janelle and Krad's relationship</li>
+        <li>Cam's pops — continuing to recover well</li>
+        <li>Chase's ankle recovery</li>
+        <li>Chan's new set of circumstances — direction professionally</li>
+        <li>Nate and Catherine and baby JJ</li>
+        <li>Anna's continued recovery postpartum</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch7">
+    <div class="meta">8/16/26 &middot; Chapter 7</div>
+    <h2>The Father's Voice</h2>
+
+    <h3>DT #1: The task of healing is to respect oneself... and the deepest desire of our hearts is for union with God.</h3>
+    <ul>
+      <li>God created us with a specific mission/calling — He intended for us to be whole and walking with Him, not walking in sin/shame/brokenness.</li>
+      <li>The strongest father figure/man to lead and guide you is God — we, as men, are called to be in constant relationship with Him.</li>
+    </ul>
+
+    <h3>DQ #1: Is it hard for you to invite God into your daily life/challenges/circumstances? Is it hard for you to ask godly men for help?</h3>
+    <ul>
+      <li>Definitely something that could be improved upon — putting God at the center of everything is paramount to the overarching goal of a fulfilling, purpose-driven life.</li>
+      <li>"Yes to both" — work's hard and gets in the way. I try to keep it to myself and take care of things alone.</li>
+      <li>It's a daily decision — needs to be intentional; you won't develop a deep relationship with God or men by accident.</li>
+    </ul>
+
+    <h3>DT #2: There are, in many of us, wounds so deep that only the medication of someone else to whom we may "bare our grief" can heal us.</h3>
+    <ul>
+      <li>Matthew 18:20 — when two or more are gathered together, I am there also.</li>
+      <li>Sometimes the only one who might understand is God — have to intensely press into your faith and relationship with God.</li>
+      <li>Sort of the intention of this group is to build godly community together.</li>
+    </ul>
+
+    <h3>DT #3: God sees me... and what He sees is my sin.</h3>
+    <ul>
+      <li>I feel guilty when I am not adhering to what I believe when it's God's calling for me.</li>
+      <li>What exactly is sin? Anything coming between your relationship with God or your calling.</li>
+    </ul>
+
+    <h3>DT #4: I don't trust a man who hasn't suffered; I don't let a man close to me who hasn't faced his wound.</h3>
+    <ul>
+      <li>As men, we're taught to bury wounds and never show our pain — that will slowly kill us all; we must tap into God's love and strength to do what's necessary. Having good men come alongside you is also so important.</li>
+      <li>Must face your problems/sin/circumstance — this way we can heal and grow in our faith.</li>
+      <li>We must help ourselves as well — not just quietly waiting for God.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Jhoni's brother and wife — future pregnancy and continued health</li>
+        <li>Logan's work trip</li>
+        <li>Chan's family staying consistent and intentional with relationship with God</li>
+        <li>Jack's guidance and direction</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch8">
+    <div class="meta">8/23/26 &middot; Chapter 8</div>
+    <h2>The Battle for a Man's Heart</h2>
+
+    <h3>DT #1: Enemy-occupied territory — and if we would endeavor...</h3>
+    <ul>
+      <li>Sounds like Aaron Rodgers — stepping up in the pocket and trusting your receivers — not evading the conflict, standing in it, honing your strength.</li>
+      <li>Standing up with passion and strength for God's purpose and glory.</li>
+    </ul>
+
+    <h3>DT #2: Connection between masculine warrior and masculine integrity.</h3>
+    <ul>
+      <li>Attack on the masculine image — the things under attack, i.e., masculine integrity, is something under attack.</li>
+      <li>I believe you must have the ability to enact some change — the masculine/godly integrity aspect of it is when/how do I enact that change. Doing nothing when there's nothing you are capable of doing is just weakness, not discipline.</li>
+    </ul>
+    <p class="note">Three enemies: the world, the flesh, and the devil. <span class="verse">James 3:13-18</span> <span class="verse">Ephesians 2:1-3</span> <span class="verse">1 John 2:15-16</span></p>
+
+    <h3>DT #3: Your flesh works against you — but your flesh is NOT you.</h3>
+    <p class="note"><span class="verse">Romans 7:17-25</span> <span class="verse">Ezekiel 36:26</span> <span class="verse">Romans 8:2-3, 9-11</span></p>
+    <ul>
+      <li>The traitor within us revolts against our very real desire to do right and honor God.</li>
+      <li>The devil is working/orchestrating our flesh's desire.</li>
+    </ul>
+
+    <h3>DT #4: Reframe from battling against sin to battling for strength.</h3>
+    <ul>
+      <li>Suppressing the strength — not ruffling feathers; sometimes you must demonstrate your strength and flex situations to being favorable to God.</li>
+      <li>A man must strive long and mightily with himself before he can learn fully to master himself.</li>
+      <li>Looking at your situations as a constantly ongoing battle forces intentionality with God to fight against and win against our sin/trespasses/temptations.</li>
+    </ul>
+
+    <h3>DT #5: Why do we run from our strength/courage?</h3>
+    <ul>
+      <li>Accountability hurts sometimes — a lot of times we like to take the easy way out. Our relationship with God is our source of strength; must be comfortable in discomfort to grow, don't run from God.</li>
+      <li>Cannot run from God or run from your calling — that's the mark of a weak man; choosing to win requires sacrifice — spending something to avoid dying with nothing.</li>
+    </ul>
+
+    <h3>DT #6: Where am I deriving my sense of strength?</h3>
+    <ul>
+      <li>The world corrupts and pollutes our sense of value — stealing away our strength/integrity/character in exchange for position and possession.</li>
+      <li>Must derive our moral/ethical code on God's will — our relationship with God, and Him working through us, is our strength.</li>
+      <li>We lose strength through looking for validation in the world — if we can feel validated through God/godly men, we don't have to compromise ourselves.</li>
+      <li>Let people feel the weight of who you are — and let them deal with it.</li>
+    </ul>
+    <p class="note">What are some things that could lead us astray: comfortability, seeking validation, lust, fighting for position/possession, running from our strength/calling, laziness, lack of intentionality/awareness.</p>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Chase's new school year and foot</li>
+        <li>Cam's father's glioblastoma — peace and joy for him and family</li>
+        <li>Chan's continued wisdom and guidance with professional search</li>
+        <li>Intentionality with our faith/actions/thought processes</li>
+        <li>Logan's new school year and OCIA</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch9">
+    <div class="meta">8/30/26 &middot; Chapter 9</div>
+    <h2>A Beauty to Rescue</h2>
+
+    <h3>DT #1: Frederick Buechner and William Gurnall opening quotes.</h3>
+    <ul>
+      <li>Important to acknowledge your enemy is very real and present — you cannot defeat an enemy you avoid/ignore/hide from.</li>
+      <li>Important to come alongside others in their fight — sharing our temptations/afflictions allows us to sort of war-game defeating our enemies.</li>
+    </ul>
+
+    <h3>DT #2: These men knew they were at war, yet they refused to act like it.</h3>
+    <ul>
+      <li>Must separate ourselves from "the traitor" within yourself — you were created for so much more.</li>
+      <li>Have to get out of the mindset of "that's just how I am" or "that's just always my vice" — it's us and God vs. our flesh, the world, and the devil; we are separate from our flesh.</li>
+      <li>Negative self-talk — assaults from the flesh/devil/world; we've all fought battles and came out on top with the Lord, and through Him we will be victorious again.</li>
+      <li>What am I denying/compromising on? We can't deny our own capability to grow and change in a positive way.</li>
+    </ul>
+
+    <h3>DT #3: Proverbs 4:23 — guard your heart (thoughts/feelings/words).</h3>
+    <ul>
+      <li>Important to constantly assess the state of our heart.</li>
+      <li>Controlling your words/thoughts demands deliberate intentionality and constant assessment.</li>
+      <li>The power of life and death rests with the tongue — being cognizant; speaking life and positivity brings life and is the reflection of your heart.</li>
+      <li>If we are constantly engaging in negative self-talk, we may begin to bring that negativity to life.</li>
+    </ul>
+    <p class="note">Joshua 1:6-7, 9; Joshua 1:5; Matthew 28:20; Hebrews 13:5</p>
+
+    <h3>DT #4: The Lord is a warrior, the Lord is His name.</h3>
+    <ul>
+      <li>The Lord is capable of anything, but He requires you to walk with Him through relationship and faith; He will be alongside you in your temptation/affliction/battles.</li>
+      <li>It's important to remember the Lord's might — how foolish of us to think our problems/situations too great for the Lord.</li>
+      <li>Modeling our lives — as best we can — after our courageous, fearless God: a blueprint to doing what's right.</li>
+    </ul>
+
+    <h3>DT #5: <span class="verse">Matthew 11:12</span> — the kingdom of heaven suffers violence, and violent men take it by force.</h3>
+    <ul>
+      <li>"I'd die for them" — but would you live for them? Doing small things on a daily basis is courageous — staying in good shape, embracing lifelong learning, and leading spiritually are some marks of a disciplined spiritual warrior.</li>
+      <li>Staying in control and being on alert are paramount to not falling into the same pitfalls you've kept struggling with.</li>
+      <li>You're moving in a super positive direction, walking with God in faith and strength — one dumb night can make you feel like you haven't made any progress, but in reality the devil is attacking you because you're making such progress — keep your foot on the gas, don't forget who you are and how great your God is.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Chase's ankle — continued healing</li>
+        <li>Logan's guilt — to be released from that, and truck project</li>
+        <li>Staying on course and living with discipline and intentionality</li>
+        <li>Chan getting back into full-time work schedule and routine</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const sections = document.querySelectorAll('section.card[id]');
+  const list = document.getElementById('sidenavList');
+  sections.forEach(sec => {
+    const heading = sec.querySelector('h2');
+    const meta = sec.querySelector('.meta');
+    const label = (meta ? meta.textContent + ' — ' : '') + (heading ? heading.textContent : sec.id);
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${sec.id}">${label}</a>`;
+    list.appendChild(li);
+  });
+
+  const toggle = document.getElementById('sidenavToggle');
+  const panel = document.getElementById('sidenavPanel');
+  toggle.addEventListener('click', () => panel.classList.toggle('open'));
+
+  const navLinks = list.querySelectorAll('a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const match = list.querySelector(`a[href="#${entry.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(sec => observer.observe(sec));
+</script>
+
+</body>
+</html>
