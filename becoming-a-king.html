@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Becoming a King — Meeting Notes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f4efe2;
+    --cream-card: #fffdf6;
+    --forest-dark: #1e3a2b;
+    --forest: #2f5233;
+    --sage: #8aa88f;
+    --sage-light: #e7efe4;
+    --border: #d9cdb2;
+    --accent: #c1662f;
+    --text-main: #2a2a22;
+    --text-soft: #6b6a5c;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--text-main);
+    font-family: 'Lora', serif;
+    line-height: 1.6;
+  }
+
+  .back-btn {
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    z-index: 500;
+    background: var(--cream-card);
+    border: 1px solid var(--border);
+    color: var(--forest-dark);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .back-btn:hover { background: var(--sage-light); }
+
+  .header {
+    background: var(--forest-dark);
+    color: var(--cream);
+    padding: 64px 24px 40px;
+    text-align: center;
+  }
+  .header h1 {
+    margin: 0 0 8px;
+    font-weight: 600;
+    font-size: 2.1rem;
+    letter-spacing: 0.5px;
+  }
+  .header p {
+    margin: 0;
+    color: var(--sage-light);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 24px 100px;
+  }
+
+  nav.toc {
+    background: var(--cream-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 28px;
+    margin-bottom: 40px;
+  }
+  nav.toc h2 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--forest);
+    margin: 0 0 12px;
+  }
+  nav.toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    columns: 2;
+    column-gap: 24px;
+  }
+  nav.toc li { break-inside: avoid; margin-bottom: 8px; }
+  nav.toc a {
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 0.95rem;
+    border-bottom: 1px dotted var(--sage);
+  }
+  nav.toc a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  section.card {
+    background: var(--cream-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 30px 32px;
+    margin-bottom: 28px;
+    scroll-margin-top: 24px;
+  }
+
+  section.card .meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  section.card h2 {
+    margin: 0 0 18px;
+    color: var(--forest-dark);
+    font-size: 1.35rem;
+    border-bottom: 2px solid var(--sage);
+    padding-bottom: 10px;
+  }
+
+  section.card h3 {
+    font-size: 1.02rem;
+    color: var(--forest);
+    margin: 22px 0 8px;
+  }
+
+  section.card p, section.card li { font-size: 0.98rem; }
+  section.card ul { margin: 0 0 4px; padding-left: 22px; }
+  section.card ul ul { margin-top: 4px; }
+  section.card li { margin-bottom: 6px; }
+
+  .verse {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.76rem;
+    background: var(--sage-light);
+    color: var(--forest-dark);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 4px;
+  }
+
+  .pearl {
+    background: var(--sage-light);
+    border-left: 4px solid var(--sage);
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin: 14px 0;
+    font-style: italic;
+    color: var(--forest-dark);
+  }
+
+  .prayer {
+    background: #fbf6ea;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-top: 20px;
+  }
+  .prayer .case-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+  }
+  .prayer ul { margin: 0; padding-left: 20px; }
+  .prayer li { font-size: 0.92rem; margin-bottom: 5px; }
+
+  .note {
+    font-size: 0.88rem;
+    color: var(--text-soft);
+    font-style: italic;
+  }
+
+  /* Side nav */
+  .sidenav-toggle {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: var(--forest-dark);
+    color: var(--cream);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    border: none;
+    padding: 14px 8px;
+    writing-mode: vertical-rl;
+    text-transform: uppercase;
+    border-radius: 8px 0 0 8px;
+    cursor: pointer;
+    z-index: 400;
+  }
+  .sidenav-panel {
+    position: fixed;
+    top: 0;
+    right: -260px;
+    width: 240px;
+    height: 100%;
+    background: var(--cream-card);
+    border-left: 1px solid var(--border);
+    padding: 70px 20px 20px;
+    overflow-y: auto;
+    transition: right 0.25s ease;
+    z-index: 450;
+  }
+  .sidenav-panel.open { right: 0; }
+  .sidenav-panel h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--forest);
+    margin-top: 0;
+  }
+  .sidenav-panel ul { list-style: none; padding: 0; margin: 0; }
+  .sidenav-panel li { margin-bottom: 10px; }
+  .sidenav-panel a {
+    text-decoration: none;
+    color: var(--text-main);
+    font-size: 0.88rem;
+  }
+  .sidenav-panel a.active { color: var(--accent); font-weight: 600; }
+
+  @media (max-width: 640px) {
+    nav.toc ul { columns: 1; }
+    section.card { padding: 22px 18px; }
+  }
+</style>
+</head>
+<body>
+<a href="index.html" class="back-btn">&larr; Back to Study Guides</a>
+
+<button class="sidenav-toggle" id="sidenavToggle">Sections</button>
+<div class="sidenav-panel" id="sidenavPanel">
+  <h3>Jump to</h3>
+  <ul id="sidenavList"></ul>
+</div>
+
+<div class="header">
+  <h1>Becoming a King</h1>
+  <p>The Locker Room — Discussion &amp; Prayer Notes</p>
+</div>
+
+<div class="container">
+
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#mission">Mission Statement</a></li>
+      <li><a href="#ch1">3/8 — Opening Discussion</a></li>
+      <li><a href="#ch2">3/15 — Ch. 2: Finishing So-So</a></li>
+      <li><a href="#ch3">3/22 — Ch. 3: Staying the Course</a></li>
+      <li><a href="#ch4">3/29 — Ch. 4: Dry Shipwreck</a></li>
+      <li><a href="#ch5">4/12 — Ch. 5</a></li>
+      <li><a href="#ch6">4/19 — Ch. 6</a></li>
+      <li><a href="#ch7">4/26 — Ch. 7</a></li>
+      <li><a href="#ch8">5/3 — Ch. 8</a></li>
+      <li><a href="#ch9">5/10 — Ch. 9</a></li>
+      <li><a href="#ch10">5/17 — Ch. 10</a></li>
+      <li><a href="#wrap">Wrap-Up &amp; Next Book</a></li>
+    </ul>
+  </nav>
+
+  <section class="card" id="mission">
+    <h2>Mission Statement</h2>
+    <p>Our mission statement is to audaciously live &amp; lead by example. To utilize the unique giftings God has granted us to lead, influence, and encourage each other and the watching world towards God's divine will and way. We resolve to hold one another accountable, encourage growth and development, and challenge each other to be attentive and responsive to God's calling in each other's unique way. We aim to meet to embolden ourselves and each other in order to more effectively go forth as credible witnesses to embody what a man of God is.</p>
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Kenny's sister's 4th child</li>
+        <li>Continued health and well-being through pregnancy for Anna</li>
+        <li>Wisdom and guidance as wedding approaches for Chan</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch1">
+    <div class="meta">3/8/26</div>
+    <h2>Opening Discussion</h2>
+    <p>In the Christian life, it's not how you start that matters — it's how you finish. It's important to understand that you don't get right and <em>then</em> turn to God — you come to God and let Him work through you to grow and develop you.</p>
+
+    <h3>Q1: How do men fall from the faith?</h3>
+    <ul>
+      <li>Stay disciplined and shrewd with your habit formation to maintain your relationship with the Lord.</li>
+      <li>Easy to be distracted once you're out in the world and completely responsible for your faith — also tragic events. <span class="verse">Luke 9:23</span></li>
+      <li>Need to put in actionable effort.</li>
+      <li>Laziness = uncontrolled desire for comfort and stability. <span class="verse">Proverbs 26:13-15</span></li>
+    </ul>
+    <p class="pearl">It's endurance that separates the men from the boys. The man that finishes the race is the "teachable man." You can't go at it alone — have to have humility, acknowledge your own sin, and realize you need the Lord.</p>
+
+    <h3>Q2: What does spiritual endurance look like? <span class="verse">Hebrews 12:1-2</span></h3>
+    <ul>
+      <li>A relationship with God is at the core of building an intimate relationship with Him — prayer.</li>
+      <li>Can feel ordinary/boring, not a flashy thing — finding God in those little moments.</li>
+      <li>Can't all just be random — need to be consistently and deliberately pursuing God.</li>
+    </ul>
+
+    <h3>Q3: If you feel incredibly guilty about some sin/behavior/thought process in your life — does that tend to hinder your progress with God?</h3>
+    <ul>
+      <li>Easier to make excuses and rationalize your sin by pushing a relationship with God to the backburner.</li>
+      <li>"I don't wanna deal with this right now" can lead to concealment of sin / rationalizing it out of convenience.</li>
+      <li>Guilt is a natural emotion which is there to signal you to turn it over to God.</li>
+    </ul>
+
+    <h3>Q4: How do we finish strong?</h3>
+    <ul>
+      <li>Accepting that we are not perfect — but continuously and consistently choosing the Lord over our flesh. <span class="verse">Proverbs 24:16</span> <span class="verse">Proverbs 20:4</span></li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Kenny's grandmother and sister's pregnancy</li>
+        <li>Chan's fiancée's pregnancy</li>
+        <li>Jackson's job search and college graduation</li>
+        <li>Continued health, strength, and wisdom</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch2">
+    <div class="meta">3/15/26 &middot; Chapter 2</div>
+    <h2>Finishing So-So</h2>
+    <p><em>Typically we're our own worst enemy</em> — reference to Noble's run-in with the law.</p>
+
+    <h3>Q1: Four different types of finishes — anything surprise you?</h3>
+    <ul>
+      <li>David being in "so-so" — when it talks so much about how he's a man after God's own heart, how can we be better?</li>
+      <li>Samson / some of the "cut off early" guys were quite impactful despite having less time.</li>
+    </ul>
+
+    <h3>Q2: What are some practical ambushes we deal with?</h3>
+    <ul>
+      <li><strong>Time</strong> — being able to make time for God and spend time with family and for your health.</li>
+      <li><strong>Comfort</strong> — laziness, being content with where you're at because it's comfortable; need to be able to grow.</li>
+      <li><strong>Sexual immorality</strong> — being men of integrity and not being quick to give in to our worldly desires (lust).</li>
+      <li><strong>Money</strong> — can affect people in positive/negative ways; can also lead to abuse of power, women, neglect of family.</li>
+    </ul>
+
+    <h3>Q3: Are you absolutely sure that you'll finish strong? No.</h3>
+    <ul>
+      <li>Important to identify your own faults/shortcomings — being realistic with where we're at and what's in our control.</li>
+      <li>The certainty could be coming from a place of pride — a dangerous trap.</li>
+      <li>Certain seasons of life expose bigger flaws/weak spots so that you can grow and press into Him.</li>
+    </ul>
+
+    <h3>Q4: How can we be super successful professionally but still keep our relationships strong with God and family?</h3>
+    <ul>
+      <li>Maintain the basis of a strong faith amidst professional stressors, building strong ethos rooted in family and faith. <span class="verse">Matthew 7:24-25</span></li>
+    </ul>
+
+    <h3>Q5: What exactly is proven character?</h3>
+    <ul>
+      <li>Actions speak louder than words — proven character is saying what you do and doing what you say — having integrity.</li>
+      <li>Character is something you can cultivate and pass down through your family — so they can have Christ live through them the same way that He's worked through and emboldened you.</li>
+      <li>Not genetic, but can be passed down — must be an active and deliberate process.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Being careful we aren't being ambushed by sexual immorality, lack of time, giving in to comfort, letting money control us</li>
+        <li>Noble's legal case</li>
+        <li>Chan finding footing as a disciplinarian</li>
+        <li>Nate's Urban Demo. Range success and safety</li>
+        <li>Jack's job search and graduation</li>
+      </ul>
+    </div>
+    <h3>Strategies to Combat Ambushes</h3>
+    <ul>
+      <li>1 physical, 1 spiritual, 1 mental win throughout the day.</li>
+      <li>Identifying our sinful nature and laying it at the cross — staying in constant prayer, worship, and studying to better understand God's will for us.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="ch3">
+    <div class="meta">3/22/26 &middot; Chapter 3</div>
+    <h2>Staying the Course</h2>
+    <p class="verse" style="margin-left:0;">Philippians 3:12-14</p>
+
+    <h3>Q1: Focus on pushing through past failures towards finishing strong?</h3>
+    <ul>
+      <li>Double down on doing godly work — move forward. Harder to change current/present action is harder than "how can I pull more from the how-to-live-better later."</li>
+      <li>Perspectives can change through different seasons of life — focus on the intended impact on the future, sort of a morally-just "the end justifies the means."</li>
+      <li>Making sure we're staying in the Word and prayer to make sure we're walking out the path we've been called on.</li>
+      <li>Stuck or dishonest about our past — need to confront our past and be honest about it so we can have humility in pressing forward from it.</li>
+    </ul>
+
+    <h3>Q2: What's the nail in your life (old-nation story)?</h3>
+    <ul>
+      <li>My music — could tune in to more worship music.</li>
+      <li>Gotta confront the nail — if we ignore it, it'll become worse.</li>
+      <li>Choosing to fear man over God — not communicating God's role in your life to others. (Talked about this quite a bit in the meeting.)</li>
+    </ul>
+    <p class="pearl">"I'm in on staying in — I'm down for a lipful."</p>
+
+    <h3>Stay close to a friend</h3>
+    <ul>
+      <li>Need to be open to sharing/humility in order to grow — move past your struggle.</li>
+      <li>Pursuing Christianity because it's hard, discipline, returning to the strain — I'm in a hard situation, need good men to keep you accountable.</li>
+      <li>With more attentive focus to prayer/meditating in the Word — receive increased clarity, focus, discipline — prioritizing the most important things.</li>
+    </ul>
+
+    <h3>Other notes</h3>
+    <ul>
+      <li>A "theological conservative" group of Christians whose behavior has absolutely no relationship to their doctrinal beliefs.</li>
+      <li>Not realizing that you are in a conflict — drugged and hazardous conduct. The fact that we get to that moral crossroad.</li>
+      <li>Josiah Gilbert Holland quote.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Jack's job search and graduation</li>
+        <li>Chan managing stress and health of Anna through pregnancy</li>
+        <li>Peace of mind</li>
+        <li>Logan's relationship</li>
+        <li>Get more families involved to be blessed with the Easter event</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch4">
+    <div class="meta">3/29/26 &middot; Chapter 4</div>
+    <h2>Dry Shipwreck</h2>
+    <p class="verse" style="margin-left:0;">Psalm 20:7</p>
+
+    <h3>Q1: How do we get ourselves into a "shipwreck" situation?</h3>
+    <ul>
+      <li>Accountability, or lack thereof — need to be able to catch yourself before it gets serious.</li>
+      <li>Having group accountability can be helpful in having the strength to resist temptation.</li>
+      <li>Nail story from last week ties in here.</li>
+    </ul>
+
+    <h3>Q2: Much easier to obey/trust in the Lord when it's something you already do/already good at — much harder when you have to turn away from something you want.</h3>
+    <ul>
+      <li>Much harder when you have to deny yourself and follow in obedience.</li>
+      <li>Hard to accept what you need to improve on — even harder to be better consistently.</li>
+      <li>How does group accountability play into this (turning away from sin)? Certain guys better with certain things, weaker with others — good to be able to pull from each other's strengths and build up each other's weaknesses. <span class="verse">Proverbs 27:17</span></li>
+      <li>Easier to bring to the group when the guys want you to win, be successful in your faith walk.</li>
+      <li>Attack from the devil that your shame/dishonor/embarrassment is too great to share what you're struggling with.</li>
+    </ul>
+
+    <h3>Q3: Deception never covers disobedience.</h3>
+    <ul>
+      <li>Sort of a downhill spiral — the sin starts connecting to each other; David first slipped up with his eyes — porn is a visual stimulus too — both lead to sinful behavior.</li>
+      <li>The secular world is full of little traps that can lead to a spiral — understanding this and preparing to be obedient.</li>
+      <li>"Web of lies," try to cover the original sin and it just continuously spirals — never ends well.</li>
+      <li>Recovering addicts realized that honesty was most important.</li>
+    </ul>
+
+    <h3>Q4: How can we avoid being shipwrecked?</h3>
+    <ul>
+      <li>Disciplined — do the hard/right thing, taking personal responsibility for what you can control.</li>
+      <li>Not being overconfident/overlooking warnings and precautions — surround yourself with good men, reach out to the guys. "Iceberg coming, sin on the horizon" — looks small, turns into a big problem when not properly dealt with.</li>
+      <li>Prayer and studying the Word — ask for help from God, ask for strength/wisdom to do what's right — then implementing what God lays on your heart into action.</li>
+    </ul>
+
+    <h3>Q5: How can we refuse to compromise when it comes to obedience to the Lord?</h3>
+    <ul>
+      <li>James — keep praying/pleading to the Lord for help. Compromise is the easier version of just doing it right.</li>
+      <li>Mini-shipwrecks can sometimes get you back on track — realize that your compromise is a real problem, needs to be dealt with.</li>
+      <li>Have a thorough understanding of the Word to be able to actually be obedient — study the Lord's will for you.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Chan &amp; Anna's marriage and future</li>
+        <li>The fellas under the weather</li>
+        <li>Productive week</li>
+        <li>Peace of mind</li>
+        <li>Noble's legal case</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch5">
+    <div class="meta">4/12/26 &middot; Chapter 5</div>
+    <h2>Provider, Provision, and Character</h2>
+
+    <h3>Q1: How can we be successful providers for our families but continue to give God the glory and praise, AND protect ourselves from corruption?</h3>
+    <ul>
+      <li>Staying in daily prayer, constantly asking for peace — doing a daily devotional.</li>
+      <li>Faith and trust in God's will prevailing — path becomes clearer, nothing for me to do but trust and walk it out.</li>
+      <li>Jesus told Peter — "on this rock you will build my church." As man of the family, you are that rock — must lead your own church (family) — family keeps you rooted.</li>
+      <li>Realize your ownership comes from God — express gratitude to God in order to better demonstrate and understand who the true provider is. <span class="verse">1 Samuel 16:7</span></li>
+    </ul>
+
+    <h3>Q2: How can we model godly character to the world?</h3>
+    <ul>
+      <li>Constant mindfulness.</li>
+      <li>Easy to get caught up in life — doesn't inherently "involve God," need to be intentional about making God a part of everything you do.</li>
+      <li>Lead by example — be kind, go to church, do your best to be God's best version of yourself — "give guy."</li>
+      <li>Internal first — display publicly God's work inside of us — having humility in failures and integrity.</li>
+      <li>Not only being a hearer of the Word but a <em>doer</em> of the Word — not being a "performative Christian."</li>
+    </ul>
+
+    <h3>Q3: "I have to be the best, I have to be number one." What's wrong with that?</h3>
+    <ul>
+      <li>God is #1 — humble yourself before God. The meek will inherit the earth.</li>
+      <li>Asking God to help us become what He wants us to be — maximize God's potential for us.</li>
+      <li>Glory for glory's sake — maximize our potential to exalt God.</li>
+    </ul>
+
+    <h3>Q4: How can we make sure to keep our zeal and passion in chasing after God's calling for us and serving Him intentionally? <span class="verse">Romans 12:11</span></h3>
+    <ul>
+      <li>Giving thanks and being cognizant of all that we've been blessed with.</li>
+      <li>Highs and lows of life — need to give praise and stay intentional regardless of where you are — keeping Him at the center makes this easier.</li>
+      <li>Constant relationship — think about the relationship like a buddy, don't just call when things are rough.</li>
+      <li>Hard to catch yourself in a moment of pride — almost not even a thought, just an action (our human nature).</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Kate's 2nd son Cooper — health, proper development, family's peace</li>
+        <li>Neuro 1 exam</li>
+        <li>Kenny's lawsuit situation — clarity and guidance</li>
+        <li>Jack's post-grad, graduating, and job interview process</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch6">
+    <div class="meta">4/19/26 &middot; Chapter 6</div>
+    <h2>Small Packages and Servant Leadership</h2>
+
+    <h3>Q1: When a man is wrapped up in himself, he makes a pretty small package.</h3>
+    <ul>
+      <li>Only focusing on yourself — not as big of an impact as you might think; not building a community or fostering an environment of growth.</li>
+      <li>Not leading anyone or serving others just leaves you alone (small).</li>
+      <li>Giving your best without having to always be first — when you only focus inwardly, you aren't serving anyone but yourself.</li>
+    </ul>
+
+    <h3>Q2: Are you a leader? What are you doing to make sure you're a good one?</h3>
+    <ul>
+      <li>Humble, driven, responsible, strong in leadership; humility and teachability are important to making the most educated decisions for your followers.</li>
+      <li>Inherent trust and belief in us (as doctors/consultants/etc.) — leaders must take that responsibility seriously to do good by others. Pursuing your endeavors honestly.</li>
+      <li>Confidence in what you're doing (not prideful but confident) — never a "perfect plan" but must need to act accordingly.</li>
+      <li>Need to be cognizant of the fact that we're all leaders.</li>
+    </ul>
+
+    <h3>Q3: Matthew 20:26-28 — how does servanthood translate to leadership?</h3>
+    <ul>
+      <li>Every team is as strong as its weakest link — need to invest in that link to strengthen your team.</li>
+      <li>Jesus was the epitome of servant leadership so we should be motivated to lead as He did.</li>
+      <li>We're serving the people below us to strengthen the whole unit — you're making it about others, not about yourself.</li>
+    </ul>
+
+    <h3>Q4: What are some things that get in the way of us being teachable?</h3>
+    <ul>
+      <li>Ego; thinking you know everything/got it all figured out.</li>
+      <li>Getting bad advice can be detrimental to feeling receptive to another perspective — can still give respect and hear them out.</li>
+      <li>Being lazy — lacking desire for growth and development — taking the easy way out.</li>
+      <li>Learned helplessness.</li>
+    </ul>
+    <p class="pearl">"If you never take a shot, you're gonna die with a full clip."</p>
+
+    <h3>Q5: How can we build an atmosphere of constructiveness around us?</h3>
+    <ul>
+      <li>Family/team should never be scared of coming to you for advice/feedback — build a constructive culture based on accountability, not unreasonable punishment.</li>
+      <li>What you surround yourself with plays a big role — life is about taking some educated risks and building strong, godly relationships to strengthen you and help with the risks.</li>
+      <li>Carrying the "shield" of constructiveness out of the group and into the world.</li>
+    </ul>
+
+    <h3>Q6: How can we make sure we're being hospitable to believers and non-believers?</h3>
+    <ul>
+      <li>Be who God called you to be — love, grace, a servant to others, regardless of belief; would God still show them grace and love?</li>
+      <li>Even if you aren't expecting anyone/anything — if you take care of your home and your soul, you'll be in the right place to be hospitable to others.</li>
+      <li>Once you hone in on accountability, you can grow as a believer.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Kate's and Austin's baby son Cooper</li>
+        <li>Logan's OCIA classes in August</li>
+        <li>Chase's sister finding their faith — building a personal relationship</li>
+        <li>Receive guidance on how to navigate relationships with family</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch7">
+    <div class="meta">4/26/26 &middot; Chapter 7</div>
+    <h2>Slipping, Forgiveness, and Repentance</h2>
+
+    <h3>Q1: How can we be strong enough to realize when we're slipping and ask God or other godly men for help?</h3>
+    <ul>
+      <li>Be receptive to what the Lord has to say to us.</li>
+      <li>Hard to know how to hear God's direction — sometimes difficult to distinguish if something's from God or just happenstance.</li>
+      <li>Konrad's duck-hunting story.</li>
+    </ul>
+
+    <h3>Q2: "I forgot that every little action of the common day makes or unmakes character," and "I allowed pleasure to dominate me, and I ended in horrible disgrace."</h3>
+    <ul>
+      <li>Accountability is important — personal discipline is paramount and planning ahead/setting goals is important to staying on track.</li>
+      <li>God will never do two things for you — resist for you and receive for you.</li>
+      <li>When you're doing well, keep doing well — it's not then time to slip. Keep doing what you're doing to keep going.</li>
+    </ul>
+
+    <h3>Q3: Manasseh's forgiven.</h3>
+    <ul>
+      <li>We're one with Christ, and therefore, I would forgive him despite his sins.</li>
+      <li>Genuine repentance is different from "saying sorry" and then continuously doing the wrong thing — must feel great remorse.</li>
+    </ul>
+
+    <h3>Q4: What are some of the things we've had to face and repent of — and what "fruit" has come from it?</h3>
+    <ul>
+      <li>Overindulgence — has led to me being on a better, more serious trajectory, leading to more success, wisdom, and clarity.</li>
+      <li>"Catholic guilt" — constant self-examination/reflection stopped manipulating others for personal gain, allowed greater self-inspection, and demonstrated through my humility that this brings peace and reconciliation.</li>
+      <li>Sexual immorality — daily struggle, must humble ourselves before God and offer godly men to be forgiven and held accountable.</li>
+    </ul>
+
+    <h3>Q5: How can we practically rid ourselves of our feelings of inequity, embarrassment, regret, etc. despite knowing we've been forgiven?</h3>
+    <ul>
+      <li>God is patient; struggling with the same specific sin is really frustrating, although we must understand that we are not necessarily meant to understand God's forgiveness but to accept it.</li>
+      <li>How prideful we must be to believe our sin is too great for our God.</li>
+      <li>Learned helplessness — just because you are forgiven doesn't mean you immediately forget your past and move forward.</li>
+      <li>1 Corinthians 10:13 — only bearable temptation / key to avoid it — will only give you what we can handle.</li>
+      <li>Cannot control yesterday, but I can control tomorrow.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Konrad's aunt</li>
+        <li>Cooper's health</li>
+        <li>Ari's pregnancy and health of her babies</li>
+        <li>Konrad and Noble's sanity and success — classes, and Chase</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch8">
+    <div class="meta">5/3/26 &middot; Chapter 8</div>
+    <h2>Failure, Faith, and Taking the Shot</h2>
+
+    <h3>Q1: "He who has never failed cannot be great — failure is the true test of greatness."</h3>
+    <ul>
+      <li>Learn from failure, without it you can't know where to grow.</li>
+      <li>During hardest times is where you get the most positive, transformative change.</li>
+      <li>Roosevelt quote — even if he fails, he fails while daring greatly.</li>
+    </ul>
+
+    <h3>Q2: What do we do when we're stuck at a crossroad asking God for wisdom and direction and we don't hear/feel an answer?</h3>
+    <ul>
+      <li>Press in more, head in the direction Scripture is guiding you towards, and pray and have faith expectantly — have to cultivate the relationship.</li>
+      <li>Prayer and fasting can bring us closer to God to hear His voice.</li>
+    </ul>
+
+    <h3>Q3: As confident, capable men — how can we avoid taking the wrong shot/opportunity, even when it appears that we can be successful?</h3>
+    <ul>
+      <li>Hard to know if you took the wrong shot until it's too late — however, putting yourself in a better position to take the shot will likely end better.</li>
+      <li>Some people try to be too aggressive — not acting with God's will/interest in mind.</li>
+      <li>Feels like Moses got the short end of the stick — however, that failure allowed for God to build and develop him — now he draws his strength and confidence from God rather than himself. <span class="verse">James 1:2-5</span></li>
+    </ul>
+
+    <h3>Q4: Does anyone have an example of a difficult situation/problem that forced you to further develop your character?</h3>
+    <ul>
+      <li>Foundation in God gets put on the backburner — to experience more of the world took a sort of reframing to get back on track and build stronger, more godly character.</li>
+      <li>Sometimes just mindlessly active, not necessarily not thinking about God but not thinking at all — a big event led to more intentional and righteous decision-making.</li>
+    </ul>
+
+    <h3>Q5: How can we utilize loneliness to further cultivate our relationship with God?</h3>
+    <ul>
+      <li>Monks seek isolation for decades to become closer to God — eliminate distractions to be able to press in further with God.</li>
+      <li>Learning to trust a promise from God — become more capable of deeper faith when waiting for God to move. <span class="verse">Proverbs 3:11-12</span></li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Chase and the boys on their missions trip (May 22nd)</li>
+        <li>Konrad and Noble's Neuro exam</li>
+        <li>Konrad's aunt</li>
+        <li>Anna and Ari's pregnancies</li>
+        <li>Jack's follow-up interview May 4th and graduation</li>
+        <li>Hannah's mom defeating breast cancer and to find her faith</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch9">
+    <div class="meta">5/10/26 &middot; Chapter 9</div>
+    <h2>Focus, Purity, and Purpose</h2>
+    <p class="note">Focusing on more practical answers, not as superficial.</p>
+
+    <h3>Q1: A man who wants to lead the orchestra must turn his back on the crowd. <span class="verse">Matthew 6:24</span></h3>
+    <ul>
+      <li>Ignore naysayers and stay focused on what you're working toward.</li>
+      <li>Must, to an extent, turn our backs to the world in order to receive guidance and instruction from God.</li>
+    </ul>
+    <p class="verse" style="margin-left:0;">Hebrews 12:1-2 &amp; James 1:2-5</p>
+
+    <h3>Q2: Joseph put away the thoughts of trading his purity for his position, turning his betrayal into bitterness.</h3>
+    <ul>
+      <li>Demonstrates Joseph's focus on his ultimate goal — has his priorities in the right places.</li>
+    </ul>
+
+    <h3>Q3: In his heart he knows what he is doing is a great evil, but he's not willing to give up his "great fun." <span class="verse">Romans 7:18-20</span> <span class="verse">Psalm 19:13-14</span></h3>
+    <ul>
+      <li>Indulging in a pleasure that you know is wrong — but fun in that moment — sexual immorality.</li>
+      <li>Hard truth to accept.</li>
+      <li>We need to grow up — surrender all to the Lord and walk out the path God's called us to.</li>
+    </ul>
+
+    <h3>Q4: How many Christian men don't stop to count the cost? <span class="verse">2 Corinthians 10:3-4</span></h3>
+    <ul>
+      <li>Little concessions lead to big problems.</li>
+      <li>Problem with pornography — got an app to hold his buddy accountable.</li>
+      <li>Always downplaying the cost can be an issue, but also overestimating the cost of a decision could lead to spiritual stagnation.</li>
+    </ul>
+
+    <h3>Q5: What made Joseph so special was his attitude.</h3>
+    <ul>
+      <li>Opportunity to show grace/patience — God doesn't give you patience, He gives you the opportunity to show patience.</li>
+      <li>We always have the opportunity to blame God or our situation for our hardship/bitterness/resentment — the only one who is burned by a lit match is the one holding onto it. Let it go and move forward in faith.</li>
+    </ul>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Clarity with how to handle situation with his brother</li>
+        <li>Logan's marriage — surrounding the familial situation with peace</li>
+        <li>Mom's and future mom's (Savannah)</li>
+        <li>Logan's best friend from San Diego — girlfriend's dad, stage 4 liver cancer</li>
+        <li>Continued health for Catherine's pregnancy</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="ch10">
+    <div class="meta">5/17/26 &middot; Chapter 10</div>
+    <h2>Finishing Strong</h2>
+
+    <h3>Q1: Only he who can see the invisible can do the impossible.</h3>
+    <ul>
+      <li>Having vision, vision for the future, having goals is important in directing behavior.</li>
+      <li>Must set specific, godly goals so they can proceed godly action and behavior — when you walk in alignment with God, resting in His promises, you can do all things.</li>
+    </ul>
+
+    <h3>Q2: What sort of vision does it take to finish strong? (Vision ≠ certainty)</h3>
+    <ul>
+      <li>Resilient attitude is necessary; when things get hard, have the strength and resilience to get up, brush off the dust, and keep fighting the good fight.</li>
+      <li>Conviction — allows us to stay focused on ultimate goal and be okay with making sacrifices to achieve that goal.</li>
+      <li>Comradery — having long-term relationships in place to strengthen and keep you accountable helps build a culture of finishing strong.</li>
+      <li>Vision should be full of wonder — hope, benevolence, having an open mind, and rolling with the punches.</li>
+    </ul>
+
+    <h3>Q3: What does it mean to win the battle in our minds? <span class="verse">Ephesians 6:12</span></h3>
+    <p class="note">Noble's picks: Romans 12:2, 2 Corinthians 10:5, Galatians 5, Romans 7, Colossians 3:2, Isaiah 26:3</p>
+    <ul>
+      <li>I may have many goals, but all I want is to be in control of my mind. I wish to avoid pervasive thoughts and have a stronger sense of awareness of my own psyche and constant reflection.</li>
+      <li>When you face discouraging news, frustrating circumstances, or just an abrupt change in direction — take heart and have peace in the fact that God's plan will prevail.</li>
+    </ul>
+
+    <p class="pearl">Next week: discussion on Lust &amp; Self-Discipline.<br>Next book: <strong>Wild at Heart</strong> by John Eldredge.</p>
+
+    <div class="prayer">
+      <span class="case-label">Prayer Requests</span>
+      <ul>
+        <li>Peace and healing for Ari in the wake of losing her baby</li>
+        <li>Jack's continued job search and finding rhythm in life outside of college</li>
+        <li>Continued health for Konrad's aunt</li>
+        <li>Chase and their missions trip to Honduras</li>
+        <li>Logan and Bern's marriage and whole wedding — peace and confidence</li>
+        <li>Jake Wilson's recovery and healing process</li>
+        <li>Anna's pregnancy</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card" id="wrap">
+    <h2>Wrap-Up</h2>
+    <p class="note">Becoming a King concluded 5/17/26. The group transitioned into <strong>Wild at Heart</strong> by John Eldredge starting 5/31/26 — see the Wild at Heart notes page.</p>
+  </section>
+
+</div>
+
+<script>
+  const sections = document.querySelectorAll('section.card[id]');
+  const list = document.getElementById('sidenavList');
+  sections.forEach(sec => {
+    const heading = sec.querySelector('h2');
+    const meta = sec.querySelector('.meta');
+    const label = (meta ? meta.textContent + ' — ' : '') + (heading ? heading.textContent : sec.id);
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${sec.id}">${label}</a>`;
+    list.appendChild(li);
+  });
+
+  const toggle = document.getElementById('sidenavToggle');
+  const panel = document.getElementById('sidenavPanel');
+  toggle.addEventListener('click', () => panel.classList.toggle('open'));
+
+  const navLinks = list.querySelectorAll('a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const match = list.querySelector(`a[href="#${entry.target.id}"]`);
+        if (match) match.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+  sections.forEach(sec => observer.observe(sec));
+</script>
+
+</body>
+</html>
