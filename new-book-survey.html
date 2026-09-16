@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book & Meetup Poll</title>
+<style>
+  :root{
+    --bg:#f7f5ef;
+    --card:#ffffff;
+    --ink:#1f2a24;
+    --ink-soft:#5b6a61;
+    --accent:#2f5d4c;
+    --accent-ink:#ffffff;
+    --line:#e2ddd0;
+    --box:#f0ede3;
+    --box-selected:#2f5d4c;
+    --box-selected-ink:#ffffff;
+    --danger:#a13d3d;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#15181a;
+      --card:#1f2427;
+      --ink:#eceae4;
+      --ink-soft:#a4ac9f;
+      --accent:#5fae8c;
+      --accent-ink:#0f1310;
+      --line:#31383a;
+      --box:#262c2b;
+      --box-selected:#5fae8c;
+      --box-selected-ink:#0f1310;
+      --danger:#e08585;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.45;
+  }
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:28px 18px 60px;
+  }
+  h1{font-size:1.5rem;margin:0 0 4px;}
+  .sub{color:var(--ink-soft);margin:0 0 24px;font-size:0.95rem;}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px 18px 20px;
+    margin-bottom:16px;
+  }
+  .card h2{font-size:1.05rem;margin:0 0 4px;}
+  .hint{color:var(--ink-soft);font-size:0.85rem;margin:0 0 12px;}
+  label{font-weight:600;font-size:0.9rem;display:block;margin-bottom:6px;}
+  input[type="text"], select{
+    width:100%;
+    padding:11px 12px;
+    border-radius:9px;
+    border:1px solid var(--line);
+    background:var(--bg);
+    color:var(--ink);
+    font-size:1rem;
+  }
+  .book-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .book-row:last-child{border-bottom:none;}
+  .book-row .title{font-weight:600;font-size:0.95rem;}
+  .book-row .author{color:var(--ink-soft);font-size:0.8rem;}
+  .book-row select{width:84px;flex:none;text-align:center;}
+  .grid7{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+  }
+  .box-btn{
+    padding:10px 2px;
+    border-radius:9px;
+    border:1px solid var(--line);
+    background:var(--box);
+    color:var(--ink);
+    font-size:0.82rem;
+    font-weight:600;
+    cursor:pointer;
+    text-align:center;
+  }
+  .box-btn.selected{
+    background:var(--box-selected);
+    color:var(--box-selected-ink);
+    border-color:var(--box-selected);
+  }
+  .time-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .time-row .box-btn{flex:1 1 30%;padding:12px 4px;}
+  .submit-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:var(--accent);
+    color:var(--accent-ink);
+    font-size:1rem;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:6px;
+  }
+  .submit-btn:disabled{opacity:0.55;cursor:default;}
+  #formMsg{font-size:0.9rem;margin-top:10px;min-height:1.2em;}
+  #formMsg.error{color:var(--danger);}
+  #formMsg.ok{color:var(--accent);}
+  .tally-row{display:flex;justify-content:space-between;font-size:0.9rem;padding:5px 0;border-bottom:1px solid var(--line);}
+  .tally-row:last-child{border-bottom:none;}
+  .resp-item{
+    padding:10px 0;
+    border-bottom:1px solid var(--line);
+    font-size:0.85rem;
+  }
+  .resp-item:last-child{border-bottom:none;}
+  .resp-item .rname{font-weight:700;}
+  .resp-item .rline{color:var(--ink-soft);margin-top:2px;}
+  .empty{color:var(--ink-soft);font-size:0.9rem;}
+  .refresh-note{font-size:0.78rem;color:var(--ink-soft);margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📖 Next Book + Meetup</h1>
+  <p class="sub">Rank the three book options, pick the days/times that could work, and toss in a group name idea if you've got one.</p>
+
+  <form id="survey">
+    <div class="card">
+      <label for="name">Your name</label>
+      <input type="text" id="name" required placeholder="e.g. Noble">
+    </div>
+
+    <div class="card">
+      <h2>Rank the books</h2>
+      <p class="hint">1 = most excited to read, 3 = least (each rank used once)</p>
+      <div class="book-row">
+        <div>
+          <div class="title">The Masculine Mandate</div>
+          <div class="author">Richard Phillips</div>
+        </div>
+        <select data-book="masculine">
+          <option value="">–</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      <div class="book-row">
+        <div>
+          <div class="title">Winning the War in Your Mind</div>
+          <div class="author">Craig Groeschel</div>
+        </div>
+        <select data-book="winning">
+          <option value="">–</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+      <div class="book-row">
+        <div>
+          <div class="title">Dialed In</div>
+          <div class="author">Jim Ramos</div>
+        </div>
+        <select data-book="dialed">
+          <option value="">–</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Which days could work?</h2>
+      <p class="hint">Tap all that apply</p>
+      <div class="grid7" id="dayGrid">
+        <button type="button" class="box-btn" data-day="Sun">Sun</button>
+        <button type="button" class="box-btn" data-day="Mon">Mon</button>
+        <button type="button" class="box-btn" data-day="Tue">Tue</button>
+        <button type="button" class="box-btn" data-day="Wed">Wed</button>
+        <button type="button" class="box-btn" data-day="Thu">Thu</button>
+        <button type="button" class="box-btn" data-day="Fri">Fri</button>
+        <button type="button" class="box-btn" data-day="Sat">Sat</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>If you had to pick ONE day, what's your top preference?</h2>
+      <select id="preferredDay" required>
+        <option value="">Pick one</option>
+        <option>Sun</option>
+        <option>Mon</option>
+        <option>Tue</option>
+        <option>Wed</option>
+        <option>Thu</option>
+        <option>Fri</option>
+        <option>Sat</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <h2>What time works? (EST)</h2>
+      <p class="hint">Tap all that apply</p>
+      <div class="time-row" id="timeGrid">
+        <button type="button" class="box-btn" data-time="7-8pm">7–8pm</button>
+        <button type="button" class="box-btn" data-time="8-9pm">8–9pm</button>
+        <button type="button" class="box-btn" data-time="9-10pm">9–10pm</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Rename "The Locker Room"? <span style="font-weight:400;color:var(--ink-soft);">(optional)</span></h2>
+      <input type="text" id="newName" placeholder="Got a better name? Drop it here">
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">Submit my answers</button>
+    <p id="formMsg"></p>
+  </form>
+
+  <div class="card">
+    <h2>📊 Results so far</h2>
+    <div id="tally"><p class="empty">Loading…</p></div>
+  </div>
+
+  <div class="card">
+    <h2>Everyone's answers</h2>
+    <div id="responseList"><p class="empty">Loading…</p></div>
+    <p class="refresh-note">Refreshes automatically every few seconds.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ---------------------------------------------------------------
+  // REQUIRED: paste your deployed Google Apps Script Web App URL here.
+  // See setup instructions provided alongside this file.
+  // ---------------------------------------------------------------
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzk5PF76iggcM2XWVdtgxf63oZnVNqC0wCB6RhWwdRrIUr8DZwmniOJjmaK-TXQ8Js/exec";
+
+  const dayGrid = document.getElementById('dayGrid');
+  const timeGrid = document.getElementById('timeGrid');
+  const selectedDays = new Set();
+  const selectedTimes = new Set();
+
+  dayGrid.querySelectorAll('.box-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const d = btn.dataset.day;
+      if(selectedDays.has(d)){ selectedDays.delete(d); btn.classList.remove('selected'); }
+      else { selectedDays.add(d); btn.classList.add('selected'); }
+    });
+  });
+
+  timeGrid.querySelectorAll('.box-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const t = btn.dataset.time;
+      if(selectedTimes.has(t)){ selectedTimes.delete(t); btn.classList.remove('selected'); }
+      else { selectedTimes.add(t); btn.classList.add('selected'); }
+    });
+  });
+
+  const BOOK_LABELS = {
+    masculine: "The Masculine Mandate",
+    winning: "Winning the War in Your Mind",
+    dialed: "Dialed In"
+  };
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function renderResults(rows){
+    const tallyEl = document.getElementById('tally');
+    const listEl = document.getElementById('responseList');
+
+    if(!rows || !rows.length){
+      tallyEl.innerHTML = '<p class="empty">No responses yet — be the first!</p>';
+      listEl.innerHTML = '<p class="empty">Nothing here yet.</p>';
+      return;
+    }
+
+    const bookSums = {masculine:0, winning:0, dialed:0};
+    const bookCounts = {masculine:0, winning:0, dialed:0};
+    const dayCounts = {};
+    const preferredDayCounts = {};
+    const timeCounts = {};
+
+    rows.forEach(r=>{
+      if(r.masculineRank){ bookSums.masculine += Number(r.masculineRank); bookCounts.masculine += 1; }
+      if(r.winningRank){ bookSums.winning += Number(r.winningRank); bookCounts.winning += 1; }
+      if(r.dialedRank){ bookSums.dialed += Number(r.dialedRank); bookCounts.dialed += 1; }
+      (String(r.daysAvailable||'').split(',').map(s=>s.trim()).filter(Boolean)).forEach(day=>{
+        dayCounts[day] = (dayCounts[day]||0) + 1;
+      });
+      if(r.preferredDay){ preferredDayCounts[r.preferredDay] = (preferredDayCounts[r.preferredDay]||0) + 1; }
+      (String(r.times||'').split(',').map(s=>s.trim()).filter(Boolean)).forEach(t=>{
+        timeCounts[t] = (timeCounts[t]||0) + 1;
+      });
+    });
+
+    const bookOrder = Object.keys(bookSums)
+      .filter(k=>bookCounts[k]>0)
+      .sort((a,b)=> (bookSums[a]/bookCounts[a]) - (bookSums[b]/bookCounts[b]));
+
+    const topDay = Object.entries(dayCounts).sort((a,b)=>b[1]-a[1])[0];
+    const topPreferredDay = Object.entries(preferredDayCounts).sort((a,b)=>b[1]-a[1])[0];
+    const topTime = Object.entries(timeCounts).sort((a,b)=>b[1]-a[1])[0];
+
+    let tallyHtml = `<div class="tally-row"><span>Total responses</span><strong>${rows.length}</strong></div>`;
+    tallyHtml += `<div class="tally-row"><span>Book leaderboard (best avg rank first)</span></div>`;
+    bookOrder.forEach((k,i)=>{
+      const avg = (bookSums[k]/bookCounts[k]).toFixed(1);
+      tallyHtml += `<div class="tally-row"><span>${i+1}. ${BOOK_LABELS[k]}</span><span>avg ${avg}</span></div>`;
+    });
+    if(topDay) tallyHtml += `<div class="tally-row"><span>Most flexible day</span><strong>${topDay[0]} (${topDay[1]})</strong></div>`;
+    if(topPreferredDay) tallyHtml += `<div class="tally-row"><span>Top preferred day</span><strong>${topPreferredDay[0]} (${topPreferredDay[1]})</strong></div>`;
+    if(topTime) tallyHtml += `<div class="tally-row"><span>Most popular time</span><strong>${topTime[0]} (${topTime[1]})</strong></div>`;
+    tallyEl.innerHTML = tallyHtml;
+
+    let listHtml = '';
+    rows.slice().reverse().forEach(r=>{
+      const rankStr = [
+        r.masculineRank ? `${BOOK_LABELS.masculine}: #${r.masculineRank}` : null,
+        r.winningRank ? `${BOOK_LABELS.winning}: #${r.winningRank}` : null,
+        r.dialedRank ? `${BOOK_LABELS.dialed}: #${r.dialedRank}` : null
+      ].filter(Boolean).join(' · ');
+      listHtml += `<div class="resp-item">
+        <div class="rname">${escapeHtml(r.name||'Anonymous')}</div>
+        <div class="rline">${rankStr}</div>
+        <div class="rline">Days: ${escapeHtml(r.daysAvailable||'—')} · Top pick: ${escapeHtml(r.preferredDay||'—')}</div>
+        <div class="rline">Times: ${escapeHtml(r.times||'—')}</div>
+        ${r.newNameSuggestion ? `<div class="rline">Name idea: "${escapeHtml(r.newNameSuggestion)}"</div>` : ''}
+      </div>`;
+    });
+    listEl.innerHTML = listHtml;
+  }
+
+  let jsonpCounter = 0;
+  function loadResults(){
+    if(!SCRIPT_URL || SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+      document.getElementById('tally').innerHTML = '<p class="empty">Results backend not connected yet.</p>';
+      document.getElementById('responseList').innerHTML = '';
+      return;
+    }
+    jsonpCounter++;
+    const cbName = 'jsonp_cb_' + jsonpCounter + '_' + Date.now();
+    const script = document.createElement('script');
+    window[cbName] = function(data){
+      renderResults(data);
+      delete window[cbName];
+      script.remove();
+    };
+    script.onerror = function(){
+      delete window[cbName];
+      script.remove();
+    };
+    script.src = SCRIPT_URL + (SCRIPT_URL.indexOf('?')>-1 ? '&' : '?') + 'callback=' + cbName;
+    document.body.appendChild(script);
+  }
+
+  loadResults();
+  setInterval(loadResults, 8000);
+
+  document.getElementById('survey').addEventListener('submit', function(e){
+    e.preventDefault();
+    const msgEl = document.getElementById('formMsg');
+    const submitBtn = document.getElementById('submitBtn');
+    msgEl.className = '';
+    msgEl.textContent = '';
+
+    const name = document.getElementById('name').value.trim();
+    const preferredDay = document.getElementById('preferredDay').value;
+    const newNameSuggestion = document.getElementById('newName').value.trim();
+
+    const rankings = {};
+    let ranksValid = true;
+    const usedRanks = new Set();
+    document.querySelectorAll('select[data-book]').forEach(sel=>{
+      const val = sel.value;
+      if(!val){ ranksValid = false; }
+      else{
+        if(usedRanks.has(val)) ranksValid = false;
+        usedRanks.add(val);
+        rankings[sel.dataset.book] = Number(val);
+      }
+    });
+
+    if(!name){ msgEl.textContent = 'Please enter your name.'; msgEl.className='error'; return; }
+    if(!ranksValid){ msgEl.textContent = 'Please rank all three books 1, 2, and 3 with no repeats.'; msgEl.className='error'; return; }
+    if(selectedDays.size===0){ msgEl.textContent = 'Please select at least one day that could work.'; msgEl.className='error'; return; }
+    if(!preferredDay){ msgEl.textContent = 'Please pick your one top-preference day.'; msgEl.className='error'; return; }
+    if(selectedTimes.size===0){ msgEl.textContent = 'Please select at least one time block.'; msgEl.className='error'; return; }
+
+    if(!SCRIPT_URL || SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+      msgEl.textContent = 'Results backend not connected yet — ask Noble to finish setup.';
+      msgEl.className = 'error';
+      return;
+    }
+
+    const payload = {
+      name,
+      rankings,
+      daysAvailable: Array.from(selectedDays),
+      preferredDay,
+      times: Array.from(selectedTimes),
+      newNameSuggestion: newNameSuggestion || null
+    };
+
+    submitBtn.disabled = true;
+    msgEl.textContent = 'Submitting…';
+    msgEl.className = '';
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).then(function(){
+      msgEl.textContent = 'Thanks — your answers are in!';
+      msgEl.className = 'ok';
+      document.getElementById('survey').reset();
+      selectedDays.clear();
+      selectedTimes.clear();
+      dayGrid.querySelectorAll('.box-btn').forEach(b=>b.classList.remove('selected'));
+      timeGrid.querySelectorAll('.box-btn').forEach(b=>b.classList.remove('selected'));
+      submitBtn.disabled = false;
+      setTimeout(loadResults, 1500);
+    }).catch(function(){
+      msgEl.textContent = "Couldn't reach the server — check your connection and try again.";
+      msgEl.className = 'error';
+      submitBtn.disabled = false;
+    });
+  });
+})();
+</script>
+</body>
+</html>
