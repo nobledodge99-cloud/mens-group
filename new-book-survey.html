@@ -68,16 +68,20 @@
     font-size:1rem;
   }
   .book-row{
+    display:block;
+    padding:12px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .book-row:last-child{border-bottom:none;}
+  .book-row .book-top{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:12px;
-    padding:10px 0;
-    border-bottom:1px solid var(--line);
   }
-  .book-row:last-child{border-bottom:none;}
   .book-row .title{font-weight:600;font-size:0.95rem;}
   .book-row .author{color:var(--ink-soft);font-size:0.8rem;}
+  .book-row .summary{color:var(--ink-soft);font-size:0.85rem;margin:8px 0 0;line-height:1.5;}
   .book-row select{width:84px;flex:none;text-align:center;}
   .grid7{
     display:grid;
@@ -134,6 +138,16 @@
   .resp-item .rline{color:var(--ink-soft);margin-top:2px;}
   .empty{color:var(--ink-soft);font-size:0.9rem;}
   .refresh-note{font-size:0.78rem;color:var(--ink-soft);margin-top:10px;}
+  .back-btn{
+    display:block;
+    text-align:center;
+    color:var(--accent);
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.95rem;
+    padding:14px;
+    margin-top:8px;
+  }
 </style>
 </head>
 <body>
@@ -151,40 +165,49 @@
       <h2>Rank the books</h2>
       <p class="hint">1 = most excited to read, 3 = least (each rank used once)</p>
       <div class="book-row">
-        <div>
-          <div class="title">The Masculine Mandate</div>
-          <div class="author">Richard Phillips</div>
+        <div class="book-top">
+          <div>
+            <div class="title">The Masculine Mandate</div>
+            <div class="author">Richard Phillips</div>
+          </div>
+          <select data-book="masculine">
+            <option value="">–</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
         </div>
-        <select data-book="masculine">
-          <option value="">–</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
+        <p class="summary">Focuses on what biblical manhood actually looks like, starting with God's design for men in Genesis and applying it to things like leadership, marriage, fatherhood, work, friendship, and the church. Probably the most Bible/theology-heavy of the three.</p>
       </div>
       <div class="book-row">
-        <div>
-          <div class="title">Winning the War in Your Mind</div>
-          <div class="author">Craig Groeschel</div>
+        <div class="book-top">
+          <div>
+            <div class="title">Winning the War in Your Mind</div>
+            <div class="author">Craig Groeschel</div>
+          </div>
+          <select data-book="winning">
+            <option value="">–</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
         </div>
-        <select data-book="winning">
-          <option value="">–</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
+        <p class="summary">Focuses on the mental and spiritual battles we all deal with — negative thinking, temptation, insecurity, anxiety, destructive habits, etc. The emphasis is on renewing your mind through biblical principles and practical strategies. Probably the most broadly relatable and practical.</p>
       </div>
       <div class="book-row">
-        <div>
-          <div class="title">Dialed In</div>
-          <div class="author">Jim Ramos</div>
+        <div class="book-top">
+          <div>
+            <div class="title">Dialed In</div>
+            <div class="author">Jim Ramos</div>
+          </div>
+          <select data-book="dialed">
+            <option value="">–</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
         </div>
-        <select data-book="dialed">
-          <option value="">–</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
+        <p class="summary">Focuses specifically on becoming a godly man through 20 characteristics drawn from Scripture. It's very practical and centers on things like leadership, discipline, faithfulness, courage, serving others, and spiritual responsibility. It also has built-in discussion questions/self-assessments, so it seems especially suited for a men's group.</p>
       </div>
     </div>
 
@@ -235,16 +258,11 @@
     <p id="formMsg"></p>
   </form>
 
-  <div class="card">
-    <h2>📊 Results so far</h2>
-    <div id="tally"><p class="empty">Loading…</p></div>
+  <div class="card" style="text-align:center;">
+    <p style="margin:0;color:var(--ink-soft);font-size:0.9rem;">Results will be submitted straight into a Google Sheet Noble created for live result input.</p>
   </div>
 
-  <div class="card">
-    <h2>Everyone's answers</h2>
-    <div id="responseList"><p class="empty">Loading…</p></div>
-    <p class="refresh-note">Refreshes automatically every few seconds.</p>
-  </div>
+  <a href="index.html" class="back-btn">← Back to Home Page</a>
 </div>
 
 <script>
@@ -281,104 +299,6 @@
     winning: "Winning the War in Your Mind",
     dialed: "Dialed In"
   };
-
-  function escapeHtml(str){
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  function renderResults(rows){
-    const tallyEl = document.getElementById('tally');
-    const listEl = document.getElementById('responseList');
-
-    if(!rows || !rows.length){
-      tallyEl.innerHTML = '<p class="empty">No responses yet — be the first!</p>';
-      listEl.innerHTML = '<p class="empty">Nothing here yet.</p>';
-      return;
-    }
-
-    const bookSums = {masculine:0, winning:0, dialed:0};
-    const bookCounts = {masculine:0, winning:0, dialed:0};
-    const dayCounts = {};
-    const preferredDayCounts = {};
-    const timeCounts = {};
-
-    rows.forEach(r=>{
-      if(r.masculineRank){ bookSums.masculine += Number(r.masculineRank); bookCounts.masculine += 1; }
-      if(r.winningRank){ bookSums.winning += Number(r.winningRank); bookCounts.winning += 1; }
-      if(r.dialedRank){ bookSums.dialed += Number(r.dialedRank); bookCounts.dialed += 1; }
-      (String(r.daysAvailable||'').split(',').map(s=>s.trim()).filter(Boolean)).forEach(day=>{
-        dayCounts[day] = (dayCounts[day]||0) + 1;
-      });
-      if(r.preferredDay){ preferredDayCounts[r.preferredDay] = (preferredDayCounts[r.preferredDay]||0) + 1; }
-      (String(r.times||'').split(',').map(s=>s.trim()).filter(Boolean)).forEach(t=>{
-        timeCounts[t] = (timeCounts[t]||0) + 1;
-      });
-    });
-
-    const bookOrder = Object.keys(bookSums)
-      .filter(k=>bookCounts[k]>0)
-      .sort((a,b)=> (bookSums[a]/bookCounts[a]) - (bookSums[b]/bookCounts[b]));
-
-    const topDay = Object.entries(dayCounts).sort((a,b)=>b[1]-a[1])[0];
-    const topPreferredDay = Object.entries(preferredDayCounts).sort((a,b)=>b[1]-a[1])[0];
-    const topTime = Object.entries(timeCounts).sort((a,b)=>b[1]-a[1])[0];
-
-    let tallyHtml = `<div class="tally-row"><span>Total responses</span><strong>${rows.length}</strong></div>`;
-    tallyHtml += `<div class="tally-row"><span>Book leaderboard (best avg rank first)</span></div>`;
-    bookOrder.forEach((k,i)=>{
-      const avg = (bookSums[k]/bookCounts[k]).toFixed(1);
-      tallyHtml += `<div class="tally-row"><span>${i+1}. ${BOOK_LABELS[k]}</span><span>avg ${avg}</span></div>`;
-    });
-    if(topDay) tallyHtml += `<div class="tally-row"><span>Most flexible day</span><strong>${topDay[0]} (${topDay[1]})</strong></div>`;
-    if(topPreferredDay) tallyHtml += `<div class="tally-row"><span>Top preferred day</span><strong>${topPreferredDay[0]} (${topPreferredDay[1]})</strong></div>`;
-    if(topTime) tallyHtml += `<div class="tally-row"><span>Most popular time</span><strong>${topTime[0]} (${topTime[1]})</strong></div>`;
-    tallyEl.innerHTML = tallyHtml;
-
-    let listHtml = '';
-    rows.slice().reverse().forEach(r=>{
-      const rankStr = [
-        r.masculineRank ? `${BOOK_LABELS.masculine}: #${r.masculineRank}` : null,
-        r.winningRank ? `${BOOK_LABELS.winning}: #${r.winningRank}` : null,
-        r.dialedRank ? `${BOOK_LABELS.dialed}: #${r.dialedRank}` : null
-      ].filter(Boolean).join(' · ');
-      listHtml += `<div class="resp-item">
-        <div class="rname">${escapeHtml(r.name||'Anonymous')}</div>
-        <div class="rline">${rankStr}</div>
-        <div class="rline">Days: ${escapeHtml(r.daysAvailable||'—')} · Top pick: ${escapeHtml(r.preferredDay||'—')}</div>
-        <div class="rline">Times: ${escapeHtml(r.times||'—')}</div>
-        ${r.newNameSuggestion ? `<div class="rline">Name idea: "${escapeHtml(r.newNameSuggestion)}"</div>` : ''}
-      </div>`;
-    });
-    listEl.innerHTML = listHtml;
-  }
-
-  let jsonpCounter = 0;
-  function loadResults(){
-    if(!SCRIPT_URL || SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
-      document.getElementById('tally').innerHTML = '<p class="empty">Results backend not connected yet.</p>';
-      document.getElementById('responseList').innerHTML = '';
-      return;
-    }
-    jsonpCounter++;
-    const cbName = 'jsonp_cb_' + jsonpCounter + '_' + Date.now();
-    const script = document.createElement('script');
-    window[cbName] = function(data){
-      renderResults(data);
-      delete window[cbName];
-      script.remove();
-    };
-    script.onerror = function(){
-      delete window[cbName];
-      script.remove();
-    };
-    script.src = SCRIPT_URL + (SCRIPT_URL.indexOf('?')>-1 ? '&' : '?') + 'callback=' + cbName;
-    document.body.appendChild(script);
-  }
-
-  loadResults();
-  setInterval(loadResults, 8000);
 
   document.getElementById('survey').addEventListener('submit', function(e){
     e.preventDefault();
@@ -443,7 +363,6 @@
       dayGrid.querySelectorAll('.box-btn').forEach(b=>b.classList.remove('selected'));
       timeGrid.querySelectorAll('.box-btn').forEach(b=>b.classList.remove('selected'));
       submitBtn.disabled = false;
-      setTimeout(loadResults, 1500);
     }).catch(function(){
       msgEl.textContent = "Couldn't reach the server — check your connection and try again.";
       msgEl.className = 'error';
