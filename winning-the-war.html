@@ -1,0 +1,266 @@
+<!--
+  HOW TO ADD A NEW MEETING'S NOTES
+  --------------------------------
+  1. Find the <div id="sunday-list"> or <div id="wednesday-list"> section below,
+     matching whichever day the meeting was.
+  2. Copy one whole <details class="meeting">...</details> block (including
+     the closing tag) and paste it as the FIRST entry in that list (newest on top).
+  3. Update the <summary> line's date/chapter label.
+  4. Replace the discussion topics/questions and prayer requests inside with
+     the new meeting's content, following the same card structure.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Winning the War in Your Mind — Meeting Notes</title>
+<style>
+  :root{
+    --bg:#f7f5ef;
+    --card:#ffffff;
+    --ink:#1f2a24;
+    --ink-soft:#5b6a61;
+    --accent:#2f5d4c;
+    --accent-ink:#ffffff;
+    --line:#e2ddd0;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#15181a;
+      --card:#1f2427;
+      --ink:#eceae4;
+      --ink-soft:#a4ac9f;
+      --accent:#5fae8c;
+      --accent-ink:#0f1310;
+      --line:#31383a;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    font-size:18px;
+  }
+  .wrap{
+    max-width:680px;
+    margin:0 auto;
+    padding:40px 20px 60px;
+  }
+  .back-link{
+    display:inline-block;
+    color:var(--accent);
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.95rem;
+    margin-bottom:24px;
+  }
+  .back-link:hover{text-decoration:underline;}
+  header{margin-bottom:22px;}
+  h1{
+    font-family:Georgia,"Iowan Old Style",serif;
+    font-size:1.9rem;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--ink-soft);
+    font-size:1rem;
+    margin:0;
+  }
+
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin:24px 0 20px;
+    border-bottom:2px solid var(--line);
+  }
+  .tab-btn{
+    appearance:none;
+    border:none;
+    background:none;
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    padding:10px 4px 12px;
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    margin-bottom:-2px;
+  }
+  .tab-btn.active{
+    color:var(--accent);
+    border-bottom-color:var(--accent);
+  }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .meeting{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+  .meeting > summary{
+    padding:16px 20px;
+    font-weight:700;
+    font-size:1.05rem;
+    cursor:pointer;
+    list-style:none;
+  }
+  .meeting > summary::-webkit-details-marker{display:none;}
+  .meeting > summary::before{
+    content:"▸";
+    display:inline-block;
+    margin-right:8px;
+    color:var(--accent);
+    transition:transform 0.15s ease;
+  }
+  .meeting[open] > summary::before{
+    transform:rotate(90deg);
+  }
+  .meeting-body{
+    padding:0 20px 20px;
+  }
+  .section{
+    margin-bottom:16px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .section:first-child{border-top:none;padding-top:0;}
+  .section h3{
+    font-size:0.95rem;
+    margin:0 0 8px;
+    color:var(--accent);
+  }
+  .quote{
+    font-style:italic;
+    color:var(--ink);
+    font-size:0.98rem;
+    line-height:1.5;
+    margin:0 0 10px;
+    padding-left:12px;
+    border-left:3px solid var(--accent);
+  }
+  .section ul{
+    margin:0;
+    padding-left:20px;
+  }
+  .section li{
+    margin-bottom:6px;
+    font-size:0.96rem;
+  }
+  .section li::marker{color:var(--accent);}
+  .empty-day{
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    padding:20px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  footer{
+    color:var(--ink-soft);
+    font-size:0.8rem;
+    text-align:center;
+    margin-top:32px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="../../index.html">← Back to Home Page</a>
+
+  <header>
+    <h1>Winning the War in Your Mind</h1>
+    <p class="sub">Meeting notes, newest first</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="sunday">Sunday Meetings</button>
+    <button class="tab-btn" data-tab="wednesday">Wednesday Meetings</button>
+  </div>
+
+  <div class="tab-panel active" id="sunday" >
+    <div id="sunday-list">
+
+      <details class="meeting" open>
+        <summary>9-27-26 — Chapter 1</summary>
+        <div class="meeting-body">
+
+          <div class="section">
+            <h3>Discussion Topic #1</h3>
+            <p class="quote">"I wonder if you feel locked up or taken captive. If so, have you considered that you might be trapped in a self-made prison?"</p>
+            <ul>
+              <li>Sometimes it's easier to have negative self-talk as a man.</li>
+              <li>It's a really good thing that God didn't care about Paul's past and focused on his plan for Paul's future and God's calling in our own lives.</li>
+              <li>Having big dreams/aspirations for what I want to accomplish — when something doesn't go my way it definitely gets me down. Important to celebrate the little victories and small gains to keep moving forward and get out of a pessimistic mindset.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Discussion Topic #2</h3>
+            <p class="quote">"Satan is your enemy, and every day he is prowling around (1 Peter 5:8), watching you, looking for a place where you might believe a lie."</p>
+            <ul>
+              <li>Satan doesn't use completely unbelievable lies — they're based on our weaknesses/shortcomings.</li>
+              <li>You have to be brave in asking for help / going to seek God and peace based on your circumstances.</li>
+              <li>You have to be searching for the gaps/cracks in the armor where you could get tagged with a lie, and identify it so you can find the fix.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Discussion Question #1</h3>
+            <p class="quote">What's a lie you've told yourself that was limiting to your goals or your faith walk?</p>
+            <ul>
+              <li>I've lied to myself about how I'm living my life — I've felt invincible, or that I was super into my faith walk when I wasn't in fact living how I should be. Letting ego get in the way and cloud my judgement (something bad/unfortunate happening typically clears that up).</li>
+              <li>In the workplace, I have to do things other people's way and feel like I might not have good ideas — stop limiting myself by putting my own capabilities in a box and trusting myself.</li>
+              <li>"All believers" have some sins that they habitually commit and have attributed to "being alright" — adjusting the standards for themselves and how they view sin as a whole. Then other sins (the ones they don't struggle with) are still upheld as being awful, deplorable things, and through that lens they condemn and judge others. It's religion/faith based on convenience, not on truth.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Prayer Requests</h3>
+            <ul>
+              <li>Katherine's health/pregnancy — your family</li>
+              <li>CVResp Block</li>
+              <li>Praying that the group can all experience wins</li>
+              <li>Praying for Jon to get a deer within bow range</li>
+              <li>NICU babies everywhere</li>
+            </ul>
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+  </div>
+
+  <div class="tab-panel" id="wednesday">
+    <div id="wednesday-list">
+      <p class="empty-day">No Wednesday meeting notes yet.</p>
+    </div>
+  </div>
+
+  <footer>The Locker Room</footer>
+</div>
+
+<script>
+(function(){
+  const buttons = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+})();
+</script>
+</body>
+</html>
