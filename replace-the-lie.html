@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Replace the Lie — The Locker Room</title>
+<style>
+  :root{
+    --bg:#f7f5ef;
+    --card:#ffffff;
+    --ink:#1f2a24;
+    --ink-soft:#5b6a61;
+    --accent:#2f5d4c;
+    --accent-ink:#ffffff;
+    --line:#e2ddd0;
+    --lie:#a8422c;
+    --lie-bg:#fbeee9;
+    --truth-bg:#e9f1ec;
+    --decl-bg:#2f5d4c;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#15181a;
+      --card:#1f2427;
+      --ink:#eceae4;
+      --ink-soft:#a4ac9f;
+      --accent:#5fae8c;
+      --accent-ink:#0f1310;
+      --line:#31383a;
+      --lie:#e58a72;
+      --lie-bg:#2b201d;
+      --truth-bg:#1d2a25;
+      --decl-bg:#5fae8c;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    font-size:18px;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:40px 20px 60px;}
+  .back-link{
+    display:inline-block;color:var(--accent);text-decoration:none;
+    font-weight:600;font-size:0.95rem;margin-bottom:24px;
+  }
+  .back-link:hover{text-decoration:underline;}
+  header{margin-bottom:22px;}
+  h1{
+    font-family:Georgia,"Iowan Old Style",serif;
+    font-size:1.9rem;margin:0 0 6px;letter-spacing:-0.01em;
+  }
+  .sub{color:var(--ink-soft);font-size:1rem;margin:0;}
+  h2.section-title{
+    font-family:Georgia,"Iowan Old Style",serif;
+    font-size:1.35rem;margin:36px 0 12px;
+  }
+  .card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:20px 22px;margin-bottom:16px;
+  }
+  .card p{margin:0 0 10px;font-size:1rem;}
+  .card p:last-child{margin-bottom:0;}
+  .soft{color:var(--ink-soft);}
+  ol.steps{margin:0;padding-left:22px;}
+  ol.steps li{margin-bottom:8px;font-size:1rem;}
+  ol.steps li::marker{color:var(--accent);font-weight:700;}
+
+  /* lie / truth / declaration blocks */
+  .ltd{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;overflow:hidden;margin-bottom:16px;
+  }
+  .ltd .row{padding:14px 20px;}
+  .ltd .label{
+    display:block;font-size:0.72rem;font-weight:800;
+    letter-spacing:0.09em;text-transform:uppercase;margin-bottom:4px;
+  }
+  .ltd .row p{margin:0;font-size:1rem;}
+  .ltd .ref{display:block;margin-top:6px;font-size:0.85rem;font-weight:700;}
+  .row.lie{background:var(--lie-bg);}
+  .row.lie .label{color:var(--lie);}
+  .row.lie p{text-decoration:line-through;text-decoration-color:var(--lie);text-decoration-thickness:1.5px;}
+  .row.truth{background:var(--truth-bg);}
+  .row.truth .label,.row.truth .ref{color:var(--accent);}
+  .row.truth p{font-style:italic;}
+  .row.decl{background:var(--decl-bg);color:var(--accent-ink);}
+  .row.decl .label{color:var(--accent-ink);opacity:0.85;}
+  .row.decl p{font-weight:600;}
+  .ex-title{font-weight:700;font-size:0.95rem;margin:0 0 8px;color:var(--ink-soft);}
+
+  /* verse accordions */
+  details.verse{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;margin-bottom:12px;overflow:hidden;
+  }
+  details.verse > summary{
+    padding:14px 20px;font-weight:700;font-size:1rem;cursor:pointer;list-style:none;
+  }
+  details.verse > summary::-webkit-details-marker{display:none;}
+  details.verse > summary::before{
+    content:"▸";display:inline-block;margin-right:8px;color:var(--accent);
+    transition:transform 0.15s ease;
+  }
+  details.verse[open] > summary::before{transform:rotate(90deg);}
+  details.verse > summary .why{
+    display:block;font-weight:400;font-size:0.88rem;color:var(--ink-soft);
+    margin:2px 0 0 20px;
+  }
+  .verse-body{padding:0 20px 18px;}
+  .verse-body blockquote{
+    margin:0 0 10px;padding-left:12px;border-left:3px solid var(--accent);
+    font-size:0.98rem;line-height:1.55;
+  }
+  .verse-body .use{margin:0;font-size:0.9rem;color:var(--ink-soft);}
+  .verse-body .use strong{color:var(--accent);}
+
+  /* template + builder */
+  .template{
+    background:var(--card);border:2px dashed var(--accent);
+    border-radius:14px;padding:20px 22px;margin-bottom:16px;
+  }
+  .template .tl{margin:0 0 12px;font-size:1rem;}
+  .template .tl:last-child{margin-bottom:0;}
+  .template .tl b{
+    display:block;font-size:0.72rem;letter-spacing:0.09em;text-transform:uppercase;
+    margin-bottom:2px;
+  }
+  .template .tl.l b{color:var(--lie);}
+  .template .tl.t b{color:var(--accent);}
+  .template .tl.d b{color:var(--accent);}
+  .template .ph{color:var(--ink-soft);font-style:italic;}
+
+  .builder label{
+    display:block;font-weight:700;font-size:0.9rem;margin:14px 0 4px;
+  }
+  .builder label span{font-weight:400;color:var(--ink-soft);}
+  .builder textarea{
+    width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);
+    border:1px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical;
+    min-height:64px;
+  }
+  .builder textarea:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .btn{
+    appearance:none;border:none;cursor:pointer;font:inherit;font-weight:700;
+    background:var(--accent);color:var(--accent-ink);
+    padding:12px 20px;border-radius:9px;font-size:1rem;margin-top:16px;
+  }
+  .btn:hover{opacity:0.92;}
+  #preview-wrap{margin-top:18px;display:none;}
+  #copy-msg{margin-left:12px;font-size:0.9rem;color:var(--accent);font-weight:600;}
+  .tabs{display:flex;gap:8px;margin:24px 0 8px;border-bottom:2px solid var(--line);}
+  .tab-btn{
+    appearance:none;border:none;background:none;font-family:inherit;font-size:1rem;
+    font-weight:700;color:var(--ink-soft);padding:10px 4px 12px;cursor:pointer;
+    border-bottom:3px solid transparent;margin-bottom:-2px;margin-right:12px;
+  }
+  .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+  .resp-meta{font-size:0.85rem;color:var(--ink-soft);margin:0 0 6px;}
+  .resp-meta b{color:var(--ink);font-size:0.95rem;}
+  .gate input{
+    font:inherit;font-size:1rem;color:var(--ink);background:var(--bg);
+    border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;max-width:280px;
+  }
+  .gate input:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .status{font-size:0.92rem;margin-top:12px;color:var(--ink-soft);}
+  .status.err{color:var(--lie);}
+  .privacy{font-size:0.85rem;color:var(--ink-soft);margin:12px 0 0;}
+  footer{color:var(--ink-soft);font-size:0.8rem;text-align:center;margin-top:36px;}
+  .credit{font-size:0.82rem;color:var(--ink-soft);margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index-mens-group.html">← Back to Home Page</a>
+
+  <header>
+    <h1>Replace the Lie</h1>
+    <p class="sub">A simple tool for tearing down strongholds: remove the lie, replace it with truth, and declare it.</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="tab-method">The Method</button>
+    <button class="tab-btn" data-tab="tab-group">Group Responses</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-method">
+
+  <h2 class="section-title">How it works</h2>
+  <div class="card">
+    <ol class="steps">
+      <li><strong>Name the lie.</strong> Be specific: the exact thought, in your own words, as it shows up in real life.</li>
+      <li><strong>Find the truth.</strong> Pick a verse that directly answers that lie. Not a general verse; one that contradicts it.</li>
+      <li><strong>Declare it.</strong> Write a short first-person statement that says what God says about you, and say it out loud every time the lie shows up.</li>
+    </ol>
+    <p class="credit">Based on the "Replacement Principle" in <em>Winning the War in Your Mind</em> by Craig Groeschel (Part 1).</p>
+  </div>
+
+  <h2 class="section-title">The weapons (why this works)</h2>
+  <p class="soft" style="margin:0 0 12px;font-size:0.98rem;">If the enemy's main weapon is lies, our greatest counterweapon is the truth of God's Word, and not just reading it, but wielding it. These are the verses behind the method (page 45).</p>
+
+  <details class="verse" open>
+    <summary>Hebrews 4:12<span class="why">God's Word is alive, active, and sharper than any sword</span></summary>
+    <div class="verse-body">
+      <blockquote>For the word of God is quick, and powerful, and sharper than any twoedged sword, piercing even to the dividing asunder of soul and spirit, and of the joints and marrow, and is a discerner of the thoughts and intents of the heart.</blockquote>
+      <p class="use"><strong>Use it for:</strong> reminding yourself that Scripture can cut through the thoughts you can't untangle on your own.</p>
+    </div>
+  </details>
+
+  <details class="verse">
+    <summary>Jeremiah 17:9<span class="why">The problem: our own heart can mislead us</span></summary>
+    <div class="verse-body">
+      <blockquote>The heart is deceitful above all things, and desperately wicked: who can know it?</blockquote>
+      <p class="use"><strong>Use it for:</strong> being skeptical of your own strongholds. A thought feeling true doesn't make it true.</p>
+    </div>
+  </details>
+
+  <details class="verse">
+    <summary>Ephesians 6:17<span class="why">The Word of God is the sword of the Spirit</span></summary>
+    <div class="verse-body">
+      <blockquote>And take the helmet of salvation, and the sword of the Spirit, which is the word of God:</blockquote>
+      <p class="use"><strong>Use it for:</strong> treating your chosen verse as a weapon you pick up on purpose, not background reading.</p>
+    </div>
+  </details>
+
+  <details class="verse">
+    <summary>Romans 12:2<span class="why">Transformation happens through a renewed mind</span></summary>
+    <div class="verse-body">
+      <blockquote>And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.</blockquote>
+      <p class="use"><strong>Use it for:</strong> remembering that God is the one who renews the mind. Your part is to show up with the truth and keep at it.</p>
+    </div>
+  </details>
+
+  <details class="verse">
+    <summary>2 Timothy 2:25-26<span class="why">Truth is how we escape the devil's trap</span></summary>
+    <div class="verse-body">
+      <blockquote><sup>25</sup>In meekness instructing those that oppose themselves; if God peradventure will give them repentance to the acknowledging of the truth; <sup>26</sup>And that they may recover themselves out of the snare of the devil, who are taken captive by him at his will.</blockquote>
+      <p class="use"><strong>Use it for:</strong> seeing the stakes: lies are a trap, and knowing the truth is the way out.</p>
+    </div>
+  </details>
+
+  <details class="verse">
+    <summary>John 8:32<span class="why">The truth sets you free</span></summary>
+    <div class="verse-body">
+      <blockquote>And ye shall know the truth, and the truth shall make you free.</blockquote>
+      <p class="use"><strong>Use it for:</strong> the promise at the end of the process. This is what the whole exercise is aimed at.</p>
+    </div>
+  </details>
+
+  <details class="verse">
+    <summary>2 Corinthians 10:5<span class="why">Take every thought captive (from our own notes)</span></summary>
+    <div class="verse-body">
+      <blockquote>Casting down imaginations, and every high thing that exalteth itself against the knowledge of God, and bringing into captivity every thought to the obedience of Christ;</blockquote>
+      <p class="use"><strong>Use it for:</strong> the action step. When the lie shows up, you stop it and run it through the template.</p>
+    </div>
+  </details>
+
+  <h2 class="section-title">The template</h2>
+  <div class="template">
+    <div class="tl l"><b>Lie</b><span class="ph">"[The exact thought, in first person, the way it sounds in your head.]"</span></div>
+    <div class="tl t"><b>Truth</b><span class="ph">"[A verse that directly contradicts the lie.]" ([Book Chapter:Verse])</span></div>
+    <div class="tl d"><b>Declaration</b><span class="ph">"God tells me [what's true about me or about Him]. [One or two short sentences in your own words.]"</span></div>
+  </div>
+
+  <div class="card">
+    <p><strong>Tips for filling it out</strong></p>
+    <ol class="steps">
+      <li>Write the lie as <em>"I"</em>, not "people say." If you wouldn't actually think it, it's not the real one.</li>
+      <li>The verse has to answer the lie directly. If you can't connect them in one sentence, pick another.</li>
+      <li>Keep the declaration short enough to say out loud in about 10 seconds.</li>
+      <li>Start the declaration with "God tells me…" so it's clear whose words you're standing on.</li>
+      <li>Revisit it with your accountability partner.</li>
+    </ol>
+  </div>
+
+  <h2 class="section-title">Examples</h2>
+
+  <p class="ex-title">Example 1: Self-reliance</p>
+  <div class="ltd">
+    <div class="row lie"><span class="label">Lie</span><p>"I can handle this on my own. I don't need anyone's help."</p></div>
+    <div class="row truth"><span class="label">Truth</span><p>"Two are better than one… For if they fall, the one will lift up his fellow: but woe to him that is alone when he falleth; for he hath not another to help him up."</p><span class="ref">Ecclesiastes 4:9-10</span></div>
+    <div class="row decl"><span class="label">Declaration</span><p>"God tells me I wasn't built to fight alone. I bring my struggles to Him and to my brothers, and that's strength, not weakness."</p></div>
+  </div>
+
+  <p class="ex-title">Example 2: Not good enough</p>
+  <div class="ltd">
+    <div class="row lie"><span class="label">Lie</span><p>"I'm not good enough for what God has called me to."</p></div>
+    <div class="row truth"><span class="label">Truth</span><p>"I can do all things through Christ which strengtheneth me."</p><span class="ref">Philippians 4:13</span></div>
+    <div class="row decl"><span class="label">Declaration</span><p>"God tells me my strength comes from Him, not from me. I don't have to be enough. He is."</p></div>
+  </div>
+
+  <p class="ex-title">Example 3: Sin too big</p>
+  <div class="ltd">
+    <div class="row lie"><span class="label">Lie</span><p>"What I've done is too big. God is done with me."</p></div>
+    <div class="row truth"><span class="label">Truth</span><p>"If we confess our sins, he is faithful and just to forgive us our sins, and to cleanse us from all unrighteousness."</p><span class="ref">1 John 1:9</span></div>
+    <div class="row decl"><span class="label">Declaration</span><p>"God tells me I'm forgiven and cleansed when I confess. My past doesn't get the last word. He does."</p></div>
+  </div>
+
+  <h2 class="section-title">Build your own</h2>
+  <div class="card builder">
+    <p class="soft">Fill in the three boxes, then tap the button to see it formatted and copy it for your accountability partner.</p>
+    <label for="in-name">Your name <span>(first name is fine)</span></label>
+    <textarea id="in-name" rows="1" style="min-height:44px" placeholder="Name"></textarea>
+    <label for="in-lie">The lie <span>(in first person)</span></label>
+    <textarea id="in-lie" placeholder="I'm not enough…"></textarea>
+    <label for="in-ref">The verse reference <span>(e.g. Romans 8:31)</span></label>
+    <textarea id="in-ref" rows="1" style="min-height:44px" placeholder="Book Chapter:Verse"></textarea>
+    <label for="in-truth">The truth <span>(verse text)</span></label>
+    <textarea id="in-truth" placeholder="Paste or type the verse that answers the lie…"></textarea>
+    <label for="in-decl">Your declaration <span>(start with "God tells me…")</span></label>
+    <textarea id="in-decl" placeholder="God tells me…"></textarea>
+    <button class="btn" id="build-btn" type="button">Build it</button>
+
+    <div id="preview-wrap">
+      <div class="ltd" style="margin-top:6px">
+        <div class="row lie"><span class="label">Lie</span><p id="out-lie"></p></div>
+        <div class="row truth"><span class="label">Truth</span><p id="out-truth"></p><span class="ref" id="out-ref"></span></div>
+        <div class="row decl"><span class="label">Declaration</span><p id="out-decl"></p></div>
+      </div>
+      <button class="btn" id="copy-btn" type="button" style="margin-top:4px">Copy as text</button>
+      <button class="btn" id="share-btn" type="button" style="margin-top:4px;margin-left:8px">Share with the group</button>
+      <span id="copy-msg"></span>
+      <p class="privacy">Sharing posts your name and what you wrote to the group's Responses tab, which is protected by the group passcode. Only share what you're comfortable with your brothers reading.</p>
+    </div>
+  </div>
+
+  </div><!-- /tab-method -->
+
+  <div class="tab-panel" id="tab-group">
+    <h2 class="section-title">Group Responses</h2>
+    <div class="card gate" id="gate">
+      <p class="soft">Enter the group passcode to see what everyone has shared.</p>
+      <input type="password" id="code-in" placeholder="Group passcode" autocomplete="off">
+      <br><button class="btn" id="load-btn" type="button">View responses</button>
+      <div class="status" id="gate-status"></div>
+    </div>
+    <div id="responses" style="display:none">
+      <p class="resp-meta"><span id="resp-count"></span> <button class="btn" id="refresh-btn" type="button" style="margin:0 0 0 8px;padding:6px 12px;font-size:0.85rem">Refresh</button></p>
+      <div id="resp-list"></div>
+    </div>
+  </div>
+
+  <footer>The Locker Room</footer>
+</div>
+
+<script>
+(function(){
+  // Paste your Apps Script Web App URL here (see replace-the-lie-backend.gs for setup)
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzFioi6XBKmIYwaCFuLotPKO6vOmL9_DnY1XyBl2N0urt95W74CvW2VznypOATgEw8/exec";
+  const connected = SCRIPT_URL.indexOf('http') === 0;
+
+  const $ = id => document.getElementById(id);
+  let plain = '';
+
+  // tabs
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  tabBtns.forEach(b => b.addEventListener('click', () => {
+    tabBtns.forEach(x => x.classList.remove('active'));
+    tabPanels.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    $(b.dataset.tab).classList.add('active');
+  }));
+  $('build-btn').addEventListener('click', function(){
+    const lie = $('in-lie').value.trim();
+    const ref = $('in-ref').value.trim();
+    const truth = $('in-truth').value.trim();
+    const decl = $('in-decl').value.trim();
+    if(!lie && !truth && !decl){ return; }
+    $('out-lie').textContent = lie ? '“' + lie + '”' : '';
+    $('out-truth').textContent = truth ? '“' + truth + '”' : '';
+    $('out-ref').textContent = ref;
+    $('out-decl').textContent = decl ? '“' + decl + '”' : '';
+    plain = 'LIE: “' + lie + '”\n' +
+            'TRUTH: “' + truth + '”' + (ref ? ' (' + ref + ')' : '') + '\n' +
+            'DECLARATION: “' + decl + '”';
+    $('preview-wrap').style.display = 'block';
+    $('share-btn').disabled = false;
+    $('copy-msg').textContent = '';
+    $('preview-wrap').scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+  // share
+  $('share-btn').addEventListener('click', function(){
+    const msg = $('copy-msg');
+    const name = $('in-name').value.trim();
+    if(!connected){ msg.textContent = 'Group sharing is not connected yet.'; return; }
+    if(!name){ msg.textContent = 'Add your name first.'; return; }
+    const btn = this; btn.disabled = true; msg.textContent = 'Sharing…';
+    fetch(SCRIPT_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({
+        name: name,
+        lie: $('in-lie').value.trim(),
+        ref: $('in-ref').value.trim(),
+        truth: $('in-truth').value.trim(),
+        declaration: $('in-decl').value.trim()
+      })
+    }).then(function(){
+      msg.textContent = 'Shared! Check the Group Responses tab.';
+    }).catch(function(){
+      msg.textContent = 'Could not share. Check your connection and try again.';
+      btn.disabled = false;
+    });
+  });
+
+  // load responses (JSONP so it works from GitHub Pages)
+  function mk(tag, cls, text){
+    const el = document.createElement(tag);
+    if(cls) el.className = cls;
+    if(text !== undefined) el.textContent = text;
+    return el;
+  }
+  function render(rows){
+    const list = $('resp-list'); list.innerHTML = '';
+    $('resp-count').textContent = rows.length + (rows.length === 1 ? ' response' : ' responses');
+    rows.forEach(function(r){
+      const wrap = mk('div');
+      const when = r.timestamp ? new Date(r.timestamp) : null;
+      const meta = mk('p','resp-meta');
+      meta.appendChild(mk('b','', r.name || 'Anonymous'));
+      if(when && !isNaN(when)) meta.appendChild(document.createTextNode(' · ' + when.toLocaleDateString()));
+      wrap.appendChild(meta);
+      const box = mk('div','ltd');
+      const l = mk('div','row lie'); l.appendChild(mk('span','label','Lie')); l.appendChild(mk('p','', r.lie ? '\u201C' + r.lie + '\u201D' : ''));
+      const t = mk('div','row truth'); t.appendChild(mk('span','label','Truth')); t.appendChild(mk('p','', r.truth ? '\u201C' + r.truth + '\u201D' : '')); t.appendChild(mk('span','ref', r.verseReference || ''));
+      const d = mk('div','row decl'); d.appendChild(mk('span','label','Declaration')); d.appendChild(mk('p','', r.declaration ? '\u201C' + r.declaration + '\u201D' : ''));
+      box.appendChild(l); box.appendChild(t); box.appendChild(d);
+      wrap.appendChild(box);
+      list.appendChild(wrap);
+    });
+  }
+  function loadResponses(){
+    const st = $('gate-status');
+    const code = $('code-in').value.trim();
+    st.className = 'status';
+    if(!connected){ st.textContent = 'Group sharing is not connected yet.'; return; }
+    if(!code){ st.textContent = 'Enter the passcode.'; return; }
+    st.textContent = 'Loading…';
+    const cb = 'cb_' + Date.now();
+    const s = document.createElement('script');
+    const timer = setTimeout(function(){
+      st.className = 'status err'; st.textContent = 'Timed out. Try again.';
+      cleanup();
+    }, 15000);
+    function cleanup(){ clearTimeout(timer); delete window[cb]; if(s.parentNode) s.parentNode.removeChild(s); }
+    window[cb] = function(res){
+      cleanup();
+      if(res && res.error){ st.className = 'status err'; st.textContent = 'Wrong passcode.'; return; }
+      st.textContent = '';
+      $('gate').style.display = 'none';
+      $('responses').style.display = 'block';
+      render(res.rows || []);
+    };
+    s.onerror = function(){ cleanup(); st.className = 'status err'; st.textContent = 'Could not load responses.'; };
+    s.src = SCRIPT_URL + (SCRIPT_URL.indexOf('?') > -1 ? '&' : '?') + 'code=' + encodeURIComponent(code) + '&callback=' + cb;
+    document.body.appendChild(s);
+  }
+  $('load-btn').addEventListener('click', loadResponses);
+  $('code-in').addEventListener('keydown', function(e){ if(e.key === 'Enter') loadResponses(); });
+  $('refresh-btn').addEventListener('click', function(){
+    $('gate').style.display = 'block'; $('responses').style.display = 'none';
+    loadResponses();
+  });
+
+  $('copy-btn').addEventListener('click', function(){
+    const msg = $('copy-msg');
+    function done(ok){ msg.textContent = ok ? 'Copied!' : 'Copy failed. Select the text and copy manually.'; }
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(plain).then(()=>done(true), ()=>done(false));
+      }else{
+        const ta = document.createElement('textarea');
+        ta.value = plain; document.body.appendChild(ta); ta.select();
+        const ok = document.execCommand('copy'); document.body.removeChild(ta); done(ok);
+      }
+    }catch(e){ done(false); }
+  });
+})();
+</script>
+</body>
+</html>
