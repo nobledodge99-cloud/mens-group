@@ -188,7 +188,7 @@
   <div class="tab-panel active" id="sunday" >
     <div id="sunday-list">
 
-      <details class="meeting" open>
+      <details class="meeting" id="sun-10-4-26" open>
         <summary>10-4-26 — Chapter 2</summary>
         <div class="meeting-body">
 
@@ -244,7 +244,7 @@
         </div>
       </details>
 
-      <details class="meeting">
+      <details class="meeting" id="sun-9-27-26">
         <summary>9-27-26 — Chapter 1</summary>
         <div class="meeting-body">
 
@@ -298,7 +298,7 @@
   <div class="tab-panel" id="wednesday">
     <div id="wednesday-list">
 
-      <details class="meeting" open>
+      <details class="meeting" id="wed-10-7-26" open>
         <summary>10-7-26 — Chapter 2</summary>
         <div class="meeting-body">
 
@@ -353,7 +353,7 @@
         </div>
       </details>
 
-      <details class="meeting">
+      <details class="meeting" id="wed-9-30-26">
         <summary>9-30-26 — Chapter 1</summary>
         <div class="meeting-body">
 
@@ -419,6 +419,20 @@
       document.getElementById(btn.dataset.tab).classList.add('active');
     });
   });
+  // Jump straight to a meeting when the link ends in #id (used by the Verses page)
+  function jump(){
+    const id=location.hash.slice(1); if(!id) return;
+    const el=document.getElementById(id); if(!el) return;
+    const panel=el.closest('.tab-panel');
+    if(panel){
+      buttons.forEach(b=>b.classList.toggle('active',b.dataset.tab===panel.id));
+      panels.forEach(p=>p.classList.toggle('active',p===panel));
+    }
+    el.open=true;
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  window.addEventListener('hashchange',jump);
+  jump();
 })();
 </script>
 </body>
