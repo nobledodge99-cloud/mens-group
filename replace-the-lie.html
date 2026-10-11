@@ -351,7 +351,7 @@
 <script>
 (function(){
   // Paste your Apps Script Web App URL here (see replace-the-lie-backend.gs for setup)
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzFioi6XBKmIYwaCFuLotPKO6vOmL9_DnY1XyBl2N0urt95W74CvW2VznypOATgEw8/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPMYF7Wv9EVqpIOo83R3EJNbKxYgM_00IXhZgucvs3vXDEioXKlzk_lOIUzAFap64/exec";
   const connected = SCRIPT_URL.indexOf('http') === 0;
 
   const $ = id => document.getElementById(id);
@@ -384,29 +384,41 @@
     $('copy-msg').textContent = '';
     $('preview-wrap').scrollIntoView({behavior:'smooth', block:'nearest'});
   });
-  // share
+  // share (JSONP GET so we get a real confirmation back from the script)
   $('share-btn').addEventListener('click', function(){
     const msg = $('copy-msg');
     const name = $('in-name').value.trim();
     if(!connected){ msg.textContent = 'Group sharing is not connected yet.'; return; }
     if(!name){ msg.textContent = 'Add your name first.'; return; }
-    const btn = this; btn.disabled = true; msg.textContent = 'Sharing…';
-    fetch(SCRIPT_URL, {
-      method:'POST', mode:'no-cors',
-      headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify({
-        name: name,
-        lie: $('in-lie').value.trim(),
-        ref: $('in-ref').value.trim(),
-        truth: $('in-truth').value.trim(),
-        declaration: $('in-decl').value.trim()
-      })
-    }).then(function(){
-      msg.textContent = 'Shared! Check the Group Responses tab.';
-    }).catch(function(){
-      msg.textContent = 'Could not share. Check your connection and try again.';
-      btn.disabled = false;
-    });
+    const btn = this; btn.disabled = true; msg.textContent = 'Sharing\u2026';
+    const params = {
+      action:'submit',
+      name: name.slice(0,80),
+      lie: $('in-lie').value.trim().slice(0,400),
+      ref: $('in-ref').value.trim().slice(0,100),
+      truth: $('in-truth').value.trim().slice(0,1200),
+      declaration: $('in-decl').value.trim().slice(0,400)
+    };
+    const cb = 'sh_' + Date.now();
+    const sc = document.createElement('script');
+    let finished = false;
+    function cleanup(){ finished = true; clearTimeout(timer); delete window[cb]; if(sc.parentNode) sc.parentNode.removeChild(sc); }
+    function fail(text){ if(finished) return; cleanup(); msg.textContent = text; btn.disabled = false; }
+    const timer = setTimeout(function(){ fail('Timed out. Check the Sheet before trying again so you don\u2019t post twice.'); }, 25000);
+    window[cb] = function(res){
+      if(finished) return;
+      cleanup();
+      if(res && res.status === 'ok'){
+        msg.textContent = 'Shared! Check the Group Responses tab.';
+      }else{
+        msg.textContent = 'The script returned an error: ' + ((res && res.error) || 'unknown');
+        btn.disabled = false;
+      }
+    };
+    sc.onerror = function(){ fail('Could not reach the group Sheet. Check the script is deployed with access set to \u201CAnyone\u201D.'); };
+    const q = Object.keys(params).map(k => k + '=' + encodeURIComponent(params[k])).join('&');
+    sc.src = SCRIPT_URL + (SCRIPT_URL.indexOf('?') > -1 ? '&' : '?') + q + '&callback=' + cb;
+    document.body.appendChild(sc);
   });
 
   // load responses (JSONP so it works from GitHub Pages)
