@@ -1,0 +1,261 @@
+<!--
+  HOW TO ADD A VERSE
+  Find the book heading below. Copy one <div class="verse">...</div> block into that book
+  (Bible order), change the reference in <h4>, the text in <p> (verse numbers in <sup>),
+  and the "Came up in" links. If a verse comes up again, just add another link to its line.
+  Links to winning-the-war.html can jump to a meeting with #sun-10-4-26 / #wed-10-7-26 style ids.
+-->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verses — The Locker Room</title>
+<style>
+  :root{
+    --bg:#f7f5ef;
+    --card:#ffffff;
+    --ink:#1f2a24;
+    --ink-soft:#5b6a61;
+    --accent:#2f5d4c;
+    --accent-ink:#ffffff;
+    --line:#e2ddd0;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#15181a;
+      --card:#1f2427;
+      --ink:#eceae4;
+      --ink-soft:#a4ac9f;
+      --accent:#5fae8c;
+      --accent-ink:#0f1310;
+      --line:#31383a;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    font-size:18px;
+  }
+  .wrap{
+    max-width:680px;
+    margin:0 auto;
+    padding:40px 20px 60px;
+  }
+  .back-link{
+    display:inline-block;
+    color:var(--accent);
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.95rem;
+    margin-bottom:24px;
+  }
+  .back-link:hover{text-decoration:underline;}
+  header{margin-bottom:22px;}
+  h1{
+    font-family:Georgia,"Iowan Old Style",serif;
+    font-size:1.9rem;
+    margin:0 0 6px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--ink-soft);
+    font-size:1rem;
+    margin:0;
+  }
+
+  .tabs{
+    display:flex;
+    gap:8px;
+    margin:24px 0 20px;
+    border-bottom:2px solid var(--line);
+  }
+  .tab-btn{
+    appearance:none;
+    border:none;
+    background:none;
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:700;
+    color:var(--ink-soft);
+    padding:10px 4px 12px;
+    cursor:pointer;
+    border-bottom:3px solid transparent;
+    margin-bottom:-2px;
+  }
+  .tab-btn.active{
+    color:var(--accent);
+    border-bottom-color:var(--accent);
+  }
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .meeting{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    margin-bottom:16px;
+    overflow:hidden;
+  }
+  .meeting > summary{
+    padding:16px 20px;
+    font-weight:700;
+    font-size:1.05rem;
+    cursor:pointer;
+    list-style:none;
+  }
+  .meeting > summary::-webkit-details-marker{display:none;}
+  .meeting > summary::before{
+    content:"▸";
+    display:inline-block;
+    margin-right:8px;
+    color:var(--accent);
+    transition:transform 0.15s ease;
+  }
+  .meeting[open] > summary::before{
+    transform:rotate(90deg);
+  }
+  .meeting-body{
+    padding:0 20px 20px;
+  }
+  .section{
+    margin-bottom:16px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .section:first-child{border-top:none;padding-top:0;}
+  .section h3{
+    font-size:0.95rem;
+    margin:0 0 8px;
+    color:var(--accent);
+  }
+  .quote{
+    font-style:italic;
+    color:var(--ink);
+    font-size:0.98rem;
+    line-height:1.5;
+    margin:0 0 10px;
+    padding-left:12px;
+    border-left:3px solid var(--accent);
+  }
+  .section ul{
+    margin:0;
+    padding-left:20px;
+  }
+  .section li{
+    margin-bottom:6px;
+    font-size:0.96rem;
+  }
+  .section li::marker{color:var(--accent);}
+  .empty-day{
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    padding:20px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+  }
+  footer{
+    color:var(--ink-soft);
+    font-size:0.8rem;
+    text-align:center;
+    margin-top:32px;
+  }
+  .verse-text{margin:0;padding:0 0 0 12px;border-left:3px solid var(--accent);}
+  .verse-text p{margin:0 0 8px;font-size:0.98rem;line-height:1.55;}
+  .verse-text sup{color:var(--accent);font-weight:700;font-size:0.7rem;margin-right:3px;}
+  .came-up{color:var(--ink-soft);font-size:0.85rem;margin:10px 0 0;}
+  .came-up a{color:var(--accent);font-weight:600;text-decoration:none;}
+  .came-up a:hover{text-decoration:underline;}
+  .translation{color:var(--ink-soft);font-size:0.9rem;margin:0 0 18px;}
+  h2.book{font-family:Georgia,"Iowan Old Style",serif;font-size:1.4rem;margin:34px 0 4px;}
+  .book-sub{margin:0 0 14px;font-size:0.9rem;}
+  .book-sub a{color:var(--accent);font-weight:600;text-decoration:none;}
+  .verse{margin:0 0 16px;}
+  .verse h4{margin:0 0 6px;font-size:0.95rem;color:var(--accent);}
+  .verse-note{color:var(--ink-soft);font-size:0.9rem;margin:0;font-style:italic;}
+  .card .verse{padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--line);}
+  .card .verse:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back-link" href="index-mens-group.html">← Back to Home Page</a>
+  <header>
+    <h1>Verses from Our Meetings</h1>
+    <p class="sub">Organized by book, in Bible order</p>
+  </header>
+  <p class="translation">Text: King James Version (public domain)</p>
+
+  <h2 class="book">Winning the War in Your Mind</h2>
+  <p class="book-sub"><a href="winning-the-war.html">View all meeting notes →</a></p>
+  <div class="card">
+    <div class="verse"><h4>Proverbs 21:22</h4><div class="verse-text"><p><sup>22</sup>A wise man scaleth the city of the mighty, and casteth down the strength of the confidence thereof.</p></div><p class="came-up">Came up in: <a href="winning-the-war.html#sun-10-4-26">Winning the War in Your Mind, Ch. 2 (10-4-26)</a> · <a href="winning-the-war.html#wed-10-7-26">Winning the War in Your Mind, Ch. 2 (10-7-26)</a></p></div>
+    <div class="verse"><h4>Romans 7:15-24</h4><div class="verse-text"><p><sup>15</sup>For that which I do I allow not: for what I would, that do I not; but what I hate, that do I. <sup>16</sup>If then I do that which I would not, I consent unto the law that it is good. <sup>17</sup>Now then it is no more I that do it, but sin that dwelleth in me. <sup>18</sup>For I know that in me (that is, in my flesh,) dwelleth no good thing: for to will is present with me; but how to perform that which is good I find not. <sup>19</sup>For the good that I would I do not: but the evil which I would not, that I do. <sup>20</sup>Now if I do that I would not, it is no more I that do it, but sin that dwelleth in me. <sup>21</sup>I find then a law, that, when I would do good, evil is present with me. <sup>22</sup>For I delight in the law of God after the inward man: <sup>23</sup>But I see another law in my members, warring against the law of my mind, and bringing me into captivity to the law of sin which is in my members. <sup>24</sup>O wretched man that I am! who shall deliver me from the body of this death?</p></div><p class="came-up">Came up in: <a href="winning-the-war.html#sun-10-4-26">Winning the War in Your Mind, Ch. 2 (10-4-26)</a> · <a href="winning-the-war.html#wed-10-7-26">Winning the War in Your Mind, Ch. 2 (10-7-26)</a></p></div>
+    <div class="verse"><h4>2 Corinthians 10:3-5</h4><div class="verse-text"><p><sup>3</sup>For though we walk in the flesh, we do not war after the flesh: <sup>4</sup>(For the weapons of our warfare are not carnal, but mighty through God to the pulling down of strong holds;) <sup>5</sup>Casting down imaginations, and every high thing that exalteth itself against the knowledge of God, and bringing into captivity every thought to the obedience of Christ;</p></div><p class="came-up">Came up in: <a href="winning-the-war.html#sun-10-4-26">Winning the War in Your Mind, Ch. 2 (10-4-26)</a> · <a href="winning-the-war.html#wed-10-7-26">Winning the War in Your Mind, Ch. 2 (10-7-26)</a></p></div>
+    <div class="verse"><h4>Ephesians 1:19-20</h4><div class="verse-text"><p><sup>19</sup>And what is the exceeding greatness of his power to us-ward who believe, according to the working of his mighty power, <sup>20</sup>Which he wrought in Christ, when he raised him from the dead, and set him at his own right hand in the heavenly places,</p></div><p class="came-up">Came up in: <a href="winning-the-war.html#sun-10-4-26">Winning the War in Your Mind, Ch. 2 (10-4-26)</a> · <a href="winning-the-war.html#wed-10-7-26">Winning the War in Your Mind, Ch. 2 (10-7-26)</a></p></div>
+    <div class="verse"><h4>Philippians 4:12</h4><div class="verse-text"><p><sup>12</sup>I know both how to be abased, and I know how to abound: every where and in all things I am instructed both to be full and to be hungry, both to abound and to suffer need.</p></div><p class="came-up">Came up in: <a href="winning-the-war.html#sun-10-4-26">Winning the War in Your Mind, Ch. 2 (10-4-26)</a> · <a href="winning-the-war.html#wed-10-7-26">Winning the War in Your Mind, Ch. 2 (10-7-26)</a></p></div>
+    <div class="verse"><h4>1 Peter 5:8</h4><div class="verse-text"><p><sup>8</sup>Be sober, be vigilant; because your adversary the devil, as a roaring lion, walketh about, seeking whom he may devour:</p></div><p class="came-up">Came up in: <a href="winning-the-war.html#sun-9-27-26">Winning the War in Your Mind, Ch. 1 (9-27-26)</a> · <a href="winning-the-war.html#wed-9-30-26">Winning the War in Your Mind, Ch. 1 (9-30-26)</a></p></div>
+  </div>
+
+  <h2 class="book">Wild at Heart</h2>
+  <p class="book-sub"><a href="wild-at-heart.html">View all meeting notes →</a></p>
+  <div class="card">
+    <div class="verse"><h4>Genesis 2:4-8</h4><div class="verse-text"><p><sup>4</sup>These are the generations of the heavens and of the earth when they were created, in the day that the LORD God made the earth and the heavens, <sup>5</sup>And every plant of the field before it was in the earth, and every herb of the field before it grew: for the LORD God had not caused it to rain upon the earth, and there was not a man to till the ground. <sup>6</sup>But there went up a mist from the earth, and watered the whole face of the ground. <sup>7</sup>And the LORD God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living soul. <sup>8</sup>And the LORD God planted a garden eastward in Eden; and there he put the man whom he had formed.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch1">Wild at Heart, Ch. 1 (5-31-26)</a></p></div>
+    <div class="verse"><h4>Exodus 15:3</h4><div class="verse-text"><p><sup>3</sup>The LORD is a man of war: the LORD is his name.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch1">Wild at Heart, Ch. 1 (5-31-26)</a></p></div>
+    <div class="verse"><h4>Joshua 1:5</h4><div class="verse-text"><p><sup>5</sup>There shall not any man be able to stand before thee all the days of thy life: as I was with Moses, so I will be with thee: I will not fail thee, nor forsake thee.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch9">Wild at Heart, Ch. 9 (8-30-26)</a></p></div>
+    <div class="verse"><h4>Joshua 1:6-7, 9</h4><div class="verse-text"><p><sup>6</sup>Be strong and of a good courage: for unto this people shalt thou divide for an inheritance the land, which I sware unto their fathers to give them. <sup>7</sup>Only be thou strong and very courageous, that thou mayest observe to do according to all the law, which Moses my servant commanded thee: turn not from it to the right hand or to the left, that thou mayest prosper whithersoever thou goest. … <sup>9</sup>Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch9">Wild at Heart, Ch. 9 (8-30-26)</a></p></div>
+    <div class="verse"><h4>Proverbs 4:23</h4><div class="verse-text"><p><sup>23</sup>Keep thy heart with all diligence; for out of it are the issues of life.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch9">Wild at Heart, Ch. 9 (8-30-26)</a></p></div>
+    <div class="verse"><h4>Proverbs 27:19</h4><div class="verse-text"><p><sup>19</sup>As in water face answereth to face, so the heart of man to man.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch1">Wild at Heart, Ch. 1 (5-31-26)</a></p></div>
+    <div class="verse"><h4>Song of Solomon 4:16</h4><div class="verse-text"><p><sup>16</sup>Awake, O north wind; and come, thou south; blow upon my garden, that the spices thereof may flow out. Let my beloved come into his garden, and eat his pleasant fruits.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch5">Wild at Heart, Ch. 5 (8-2-26)</a></p></div>
+    <div class="verse"><h4>Ezekiel 36:26</h4><div class="verse-text"><p><sup>26</sup>A new heart also will I give you, and a new spirit will I put within you: and I will take away the stony heart out of your flesh, and I will give you an heart of flesh.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch8">Wild at Heart, Ch. 8 (8-23-26)</a></p></div>
+    <div class="verse"><h4>Matthew 11:12</h4><div class="verse-text"><p><sup>12</sup>And from the days of John the Baptist until now the kingdom of heaven suffereth violence, and the violent take it by force.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch9">Wild at Heart, Ch. 9 (8-30-26)</a></p></div>
+    <div class="verse"><h4>Matthew 18:20</h4><div class="verse-text"><p><sup>20</sup>For where two or three are gathered together in my name, there am I in the midst of them.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch7">Wild at Heart, Ch. 7 (8-16-26)</a></p></div>
+    <div class="verse"><h4>Matthew 28:20</h4><div class="verse-text"><p><sup>20</sup>Teaching them to observe all things whatsoever I have commanded you: and, lo, I am with you alway, even unto the end of the world. Amen.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch9">Wild at Heart, Ch. 9 (8-30-26)</a></p></div>
+    <div class="verse"><h4>Romans 7:17-25</h4><div class="verse-text"><p><sup>17</sup>Now then it is no more I that do it, but sin that dwelleth in me. <sup>18</sup>For I know that in me (that is, in my flesh,) dwelleth no good thing: for to will is present with me; but how to perform that which is good I find not. <sup>19</sup>For the good that I would I do not: but the evil which I would not, that I do. <sup>20</sup>Now if I do that I would not, it is no more I that do it, but sin that dwelleth in me. <sup>21</sup>I find then a law, that, when I would do good, evil is present with me. <sup>22</sup>For I delight in the law of God after the inward man: <sup>23</sup>But I see another law in my members, warring against the law of my mind, and bringing me into captivity to the law of sin which is in my members. <sup>24</sup>O wretched man that I am! who shall deliver me from the body of this death? <sup>25</sup>I thank God through Jesus Christ our Lord. So then with the mind I myself serve the law of God; but with the flesh the law of sin.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch8">Wild at Heart, Ch. 8 (8-23-26)</a></p></div>
+    <div class="verse"><h4>Romans 8:2-3, 9-11</h4><div class="verse-text"><p><sup>2</sup>For the law of the Spirit of life in Christ Jesus hath made me free from the law of sin and death. <sup>3</sup>For what the law could not do, in that it was weak through the flesh, God sending his own Son in the likeness of sinful flesh, and for sin, condemned sin in the flesh: … <sup>9</sup>But ye are not in the flesh, but in the Spirit, if so be that the Spirit of God dwell in you. Now if any man have not the Spirit of Christ, he is none of his. <sup>10</sup>And if Christ be in you, the body is dead because of sin; but the Spirit is life because of righteousness. <sup>11</sup>But if the Spirit of him that raised up Jesus from the dead dwell in you, he that raised up Christ from the dead shall quicken your mortal bodies by his Spirit that dwelleth in you.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch8">Wild at Heart, Ch. 8 (8-23-26)</a></p></div>
+    <div class="verse"><h4>Ephesians 2:1-3</h4><div class="verse-text"><p><sup>1</sup>And you hath he quickened, who were dead in trespasses and sins; <sup>2</sup>Wherein in time past ye walked according to the course of this world, according to the prince of the power of the air, the spirit that now worketh in the children of disobedience: <sup>3</sup>Among whom also we all had our conversation in times past in the lusts of our flesh, fulfilling the desires of the flesh and of the mind; and were by nature the children of wrath, even as others.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch8">Wild at Heart, Ch. 8 (8-23-26)</a></p></div>
+    <div class="verse"><h4>Hebrews 13:5</h4><div class="verse-text"><p><sup>5</sup>Let your conversation be without covetousness; and be content with such things as ye have: for he hath said, I will never leave thee, nor forsake thee.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch9">Wild at Heart, Ch. 9 (8-30-26)</a></p></div>
+    <div class="verse"><h4>James 3:13-18</h4><div class="verse-text"><p><sup>13</sup>Who is a wise man and endued with knowledge among you? let him shew out of a good conversation his works with meekness of wisdom. <sup>14</sup>But if ye have bitter envying and strife in your hearts, glory not, and lie not against the truth. <sup>15</sup>This wisdom descendeth not from above, but is earthly, sensual, devilish. <sup>16</sup>For where envying and strife is, there is confusion and every evil work. <sup>17</sup>But the wisdom that is from above is first pure, then peaceable, gentle, and easy to be intreated, full of mercy and good fruits, without partiality, and without hypocrisy. <sup>18</sup>And the fruit of righteousness is sown in peace of them that make peace.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch8">Wild at Heart, Ch. 8 (8-23-26)</a></p></div>
+    <div class="verse"><h4>1 John 2:15-16</h4><div class="verse-text"><p><sup>15</sup>Love not the world, neither the things that are in the world. If any man love the world, the love of the Father is not in him. <sup>16</sup>For all that is in the world, the lust of the flesh, and the lust of the eyes, and the pride of life, is not of the Father, but is of the world.</p></div><p class="came-up">Came up in: <a href="wild-at-heart.html#ch8">Wild at Heart, Ch. 8 (8-23-26)</a></p></div>
+  </div>
+
+  <h2 class="book">Finishing Strong</h2>
+  <p class="book-sub"><a href="finishing-strong.html">View all meeting notes →</a></p>
+  <div class="card">
+    <div class="verse"><h4>1 Samuel 16:7</h4><div class="verse-text"><p><sup>7</sup>But the LORD said unto Samuel, Look not on his countenance, or on the height of his stature; because I have refused him: for the LORD seeth not as man seeth; for man looketh on the outward appearance, but the LORD looketh on the heart.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch5">Finishing Strong, Ch. 5 (4-12-26)</a></p></div>
+    <div class="verse"><h4>Psalm 19:13-14</h4><div class="verse-text"><p><sup>13</sup>Keep back thy servant also from presumptuous sins; let them not have dominion over me: then shall I be upright, and I shall be innocent from the great transgression. <sup>14</sup>Let the words of my mouth, and the meditation of my heart, be acceptable in thy sight, O LORD, my strength, and my redeemer.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch9">Finishing Strong, Ch. 9 (5-10-26)</a></p></div>
+    <div class="verse"><h4>Psalm 20:7</h4><div class="verse-text"><p><sup>7</sup>Some trust in chariots, and some in horses: but we will remember the name of the LORD our God.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch4">Finishing Strong, Ch. 4 (3-29-26)</a></p></div>
+    <div class="verse"><h4>Proverbs 3:11-12</h4><div class="verse-text"><p><sup>11</sup>My son, despise not the chastening of the LORD; neither be weary of his correction: <sup>12</sup>For whom the LORD loveth he correcteth; even as a father the son in whom he delighteth.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch8">Finishing Strong, Ch. 8 (5-3-26)</a></p></div>
+    <div class="verse"><h4>Proverbs 20:4</h4><div class="verse-text"><p><sup>4</sup>The sluggard will not plow by reason of the cold; therefore shall he beg in harvest, and have nothing.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch1">Finishing Strong, Ch. 1 (3-8-26)</a></p></div>
+    <div class="verse"><h4>Proverbs 24:16</h4><div class="verse-text"><p><sup>16</sup>For a just man falleth seven times, and riseth up again: but the wicked shall fall into mischief.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch1">Finishing Strong, Ch. 1 (3-8-26)</a></p></div>
+    <div class="verse"><h4>Proverbs 26:13-15</h4><div class="verse-text"><p><sup>13</sup>The slothful man saith, There is a lion in the way; a lion is in the streets. <sup>14</sup>As the door turneth upon his hinges, so doth the slothful upon his bed. <sup>15</sup>The slothful hideth his hand in his bosom; it grieveth him to bring it again to his mouth.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch1">Finishing Strong, Ch. 1 (3-8-26)</a></p></div>
+    <div class="verse"><h4>Proverbs 27:17</h4><div class="verse-text"><p><sup>17</sup>Iron sharpeneth iron; so a man sharpeneth the countenance of his friend.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch4">Finishing Strong, Ch. 4 (3-29-26)</a></p></div>
+    <div class="verse"><h4>Isaiah 26:3</h4><div class="verse-text"><p><sup>3</sup>Thou wilt keep him in perfect peace, whose mind is stayed on thee: because he trusteth in thee.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch10">Finishing Strong, Ch. 10 (5-17-26)</a></p></div>
+    <div class="verse"><h4>Matthew 6:24</h4><div class="verse-text"><p><sup>24</sup>No man can serve two masters: for either he will hate the one, and love the other; or else he will hold to the one, and despise the other. Ye cannot serve God and mammon.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch9">Finishing Strong, Ch. 9 (5-10-26)</a></p></div>
+    <div class="verse"><h4>Matthew 7:24-25</h4><div class="verse-text"><p><sup>24</sup>Therefore whosoever heareth these sayings of mine, and doeth them, I will liken him unto a wise man, which built his house upon a rock: <sup>25</sup>And the rain descended, and the floods came, and the winds blew, and beat upon that house; and it fell not: for it was founded upon a rock.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch2">Finishing Strong, Ch. 2 (3-15-26)</a></p></div>
+    <div class="verse"><h4>Matthew 20:26-28</h4><div class="verse-text"><p><sup>26</sup>But it shall not be so among you: but whosoever will be great among you, let him be your minister; <sup>27</sup>And whosoever will be chief among you, let him be your servant: <sup>28</sup>Even as the Son of man came not to be ministered unto, but to minister, and to give his life a ransom for many.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch6">Finishing Strong, Ch. 6 (4-19-26)</a></p></div>
+    <div class="verse"><h4>Luke 9:23</h4><div class="verse-text"><p><sup>23</sup>And he said to them all, If any man will come after me, let him deny himself, and take up his cross daily, and follow me.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch1">Finishing Strong, Ch. 1 (3-8-26)</a></p></div>
+    <div class="verse"><h4>Romans 7</h4><p class="verse-note">Whole chapter referenced in the notes (no specific verse written), so open it in your Bible.</p><p class="came-up">Came up in: <a href="finishing-strong.html#ch10">Finishing Strong, Ch. 10 (5-17-26)</a></p></div>
+    <div class="verse"><h4>Romans 7:18-20</h4><div class="verse-text"><p><sup>18</sup>For I know that in me (that is, in my flesh,) dwelleth no good thing: for to will is present with me; but how to perform that which is good I find not. <sup>19</sup>For the good that I would I do not: but the evil which I would not, that I do. <sup>20</sup>Now if I do that I would not, it is no more I that do it, but sin that dwelleth in me.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch9">Finishing Strong, Ch. 9 (5-10-26)</a></p></div>
+    <div class="verse"><h4>Romans 12:2</h4><div class="verse-text"><p><sup>2</sup>And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch10">Finishing Strong, Ch. 10 (5-17-26)</a></p></div>
+    <div class="verse"><h4>Romans 12:11</h4><div class="verse-text"><p><sup>11</sup>Not slothful in business; fervent in spirit; serving the Lord;</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch5">Finishing Strong, Ch. 5 (4-12-26)</a></p></div>
+    <div class="verse"><h4>1 Corinthians 10:13</h4><div class="verse-text"><p><sup>13</sup>There hath no temptation taken you but such as is common to man: but God is faithful, who will not suffer you to be tempted above that ye are able; but will with the temptation also make a way to escape, that ye may be able to bear it.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch7">Finishing Strong, Ch. 7 (4-26-26)</a></p></div>
+    <div class="verse"><h4>2 Corinthians 10:3-4</h4><div class="verse-text"><p><sup>3</sup>For though we walk in the flesh, we do not war after the flesh: <sup>4</sup>(For the weapons of our warfare are not carnal, but mighty through God to the pulling down of strong holds;)</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch9">Finishing Strong, Ch. 9 (5-10-26)</a></p></div>
+    <div class="verse"><h4>2 Corinthians 10:5</h4><div class="verse-text"><p><sup>5</sup>Casting down imaginations, and every high thing that exalteth itself against the knowledge of God, and bringing into captivity every thought to the obedience of Christ;</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch10">Finishing Strong, Ch. 10 (5-17-26)</a></p></div>
+    <div class="verse"><h4>Galatians 5</h4><p class="verse-note">Whole chapter referenced in the notes (no specific verse written), so open it in your Bible.</p><p class="came-up">Came up in: <a href="finishing-strong.html#ch10">Finishing Strong, Ch. 10 (5-17-26)</a></p></div>
+    <div class="verse"><h4>Ephesians 6:12</h4><div class="verse-text"><p><sup>12</sup>For we wrestle not against flesh and blood, but against principalities, against powers, against the rulers of the darkness of this world, against spiritual wickedness in high places.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch10">Finishing Strong, Ch. 10 (5-17-26)</a></p></div>
+    <div class="verse"><h4>Philippians 3:12-14</h4><div class="verse-text"><p><sup>12</sup>Not as though I had already attained, either were already perfect: but I follow after, if that I may apprehend that for which also I am apprehended of Christ Jesus. <sup>13</sup>Brethren, I count not myself to have apprehended: but this one thing I do, forgetting those things which are behind, and reaching forth unto those things which are before, <sup>14</sup>I press toward the mark for the prize of the high calling of God in Christ Jesus.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch3">Finishing Strong, Ch. 3 (3-22-26)</a></p></div>
+    <div class="verse"><h4>Colossians 3:2</h4><div class="verse-text"><p><sup>2</sup>Set your affection on things above, not on things on the earth.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch10">Finishing Strong, Ch. 10 (5-17-26)</a></p></div>
+    <div class="verse"><h4>Hebrews 12:1-2</h4><div class="verse-text"><p><sup>1</sup>Wherefore seeing we also are compassed about with so great a cloud of witnesses, let us lay aside every weight, and the sin which doth so easily beset us, and let us run with patience the race that is set before us, <sup>2</sup>Looking unto Jesus the author and finisher of our faith; who for the joy that was set before him endured the cross, despising the shame, and is set down at the right hand of the throne of God.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch1">Finishing Strong, Ch. 1 (3-8-26)</a> · <a href="finishing-strong.html#ch9">Finishing Strong, Ch. 9 (5-10-26)</a></p></div>
+    <div class="verse"><h4>James 1:2-5</h4><div class="verse-text"><p><sup>2</sup>My brethren, count it all joy when ye fall into divers temptations; <sup>3</sup>Knowing this, that the trying of your faith worketh patience. <sup>4</sup>But let patience have her perfect work, that ye may be perfect and entire, wanting nothing. <sup>5</sup>If any of you lack wisdom, let him ask of God, that giveth to all men liberally, and upbraideth not; and it shall be given him.</p></div><p class="came-up">Came up in: <a href="finishing-strong.html#ch8">Finishing Strong, Ch. 8 (5-3-26)</a> · <a href="finishing-strong.html#ch9">Finishing Strong, Ch. 9 (5-10-26)</a></p></div>
+  </div>
+
+  <footer>The Locker Room</footer>
+</div>
+</body>
+</html>
