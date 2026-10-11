@@ -177,6 +177,41 @@
     text-align:center;
     margin-top:32px;
   }
+  .prayer-banner{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:6px solid var(--accent);
+    border-radius:14px;
+    padding:18px 22px;
+    margin-bottom:20px;
+  }
+  .prayer-banner h2{
+    font-size:1.2rem;
+    margin:0 0 2px;
+  }
+  .prayer-banner .prayer-date{
+    color:var(--ink-soft);
+    font-size:0.9rem;
+    margin:0 0 10px;
+  }
+  .prayer-banner ul{
+    margin:0;
+    padding-left:20px;
+  }
+  .prayer-banner li{
+    color:var(--ink);
+    font-size:1.02rem;
+    margin-bottom:5px;
+  }
+  .prayer-banner li::marker{color:var(--accent);}
+  .card a.verse-link{
+    display:inline-block;
+    color:var(--accent);
+    font-weight:700;
+    text-decoration:none;
+    font-size:1.05rem;
+  }
+  .card a.verse-link:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -185,6 +220,28 @@
     <h1>The Locker Room</h1>
     <p class="tagline">Men committed to leading by example and holding each other accountable to God's calling.</p>
   </header>
+
+  <!--
+    ============ WEEKLY PRAYER REQUESTS ============
+    Each week: change the date line, then edit/add/delete the <li> lines below.
+    One request per <li>...</li>. Nothing else needs to change.
+  -->
+  <div class="prayer-banner">
+    <h2>🙏 Prayer Requests</h2>
+    <p class="prayer-date">Week of October 5, 2026</p>
+    <ul>
+      <li>Those suffering with addiction</li>
+      <li>Catherine's pregnancy (due late Nov.–early Dec.) and finding out duty station in November</li>
+      <li>Peace and wellbeing for Chan and the family (Archie's health)</li>
+      <li>Ken-Dawg and his birthday</li>
+      <li>Flight and trip to Dallas and Kailee</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Mission Statement</h2>
+    <p>Our mission statement is to audaciously live and lead by example. To utilize the unique giftings God has granted us to lead, influence, and encourage each other and the watching world towards God&rsquo;s divine will and way. We resolve to hold one another accountable, encourage growth and development, and challenge each other to be attentive and responsive to God&rsquo;s calling in each other&rsquo;s unique way. We aim to engage in fellowship in order to embolden ourselves and each other to more effectively go forth as credible witnesses and embody what a man of God is.</p>
+  </div>
 
   <div class="card poll-card">
     <h2>🎥 Join the meeting</h2>
@@ -199,11 +256,6 @@
   </div>
 
   <div class="card">
-    <h2>Mission Statement</h2>
-    <p>Our mission statement is to audaciously live and lead by example. To utilize the unique giftings God has granted us to lead, influence, and encourage each other and the watching world towards God&rsquo;s divine will and way. We resolve to hold one another accountable, encourage growth and development, and challenge each other to be attentive and responsive to God&rsquo;s calling in each other&rsquo;s unique way. We aim to engage in fellowship in order to embolden ourselves and each other to more effectively go forth as credible witnesses and embody what a man of God is.</p>
-  </div>
-
-  <div class="card">
     <h2>How it works</h2>
     <ol>
       <li>Vote in the poll above for the next book.</li>
@@ -211,6 +263,12 @@
       <li>Show up ready to rock and roll at one of the meeting times we select.</li>
       <li>Check below for the Meeting Notes if you can't make a week!</li>
     </ol>
+  </div>
+
+  <div class="card">
+    <h2>📖 Verses from our meetings</h2>
+    <p>Every verse mentioned in the notes, with the full text for reference.</p>
+    <a class="verse-link" href="verses.html">Open the verse list →</a>
   </div>
 
   <div class="card">
