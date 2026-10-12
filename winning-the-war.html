@@ -1,7 +1,53 @@
 <!--
   HOW TO ADD A NEW MEETING'S NOTES
   --------------------------------
-  1. Find the <div id="sunday-list"> or <div id="wednesday-list"> section below,
+  1. Find the <div id="sunday-list"> <details class="meeting" id="sun-10-11-26" open>
+        <summary>10-11-26 — Replace the Lie</summary>
+        <div class="meeting-body">
+
+          <div class="section">
+            <h3>Discussion Question #1</h3>
+            <p class="quote">Looking at pages 30-31 on the concept of not waging war as Christians. Whether it be choosing to not wage war against Satan, that one habit we have, or not waging the war against the dark thought that's been in our mind. What are the consequences of choosing to remain neutral? Do you eventually start lying to yourself thinking it's normal? Do you keep losing more and more of yourself? (Konrad's request)</p>
+            <ul>
+              <li>Neutrality is the enemy. Even more than that — we need to be moving in a direction (hopefully a positive one); this is how we grow and develop in our faith. We haven't been called to stand on the sidelines.</li>
+              <li>You don't have the opportunity to demonstrate faith if you aren't putting yourself in challenging situations.</li>
+              <li>Without generated action you are sort of fencing yourself in.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Discussion Question #2</h3>
+            <p class="quote">In addition to replacing the lies in our minds with God's truth — what other steps can we take?</p>
+            <ul>
+              <li>Questioning the causes → dive deeper into the problems that are facing you and see what lie from the devil is unearthed.</li>
+              <li>Talk things out with significant others or with members of the group. Being transparent with others. Put yourself in a negative viewpoint and identify your own weaknesses and where the devil may try to strike → prepare yourself.</li>
+              <li>It's difficult to be able to self-identify; sometimes other people know you better than you know yourself. Important to maintain a positive and consistent self-dialogue.</li>
+              <li>Utilizing the prayer requests more — so that we can make our requests known before God and the group.</li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Replace the Lie Group Activity</h3>
+            <ul>
+              <li><a href="replace-the-lie.html">Open the Replace the Lie template</a></li>
+              <li><a href="replace-the-lie.html#group">See the group's responses</a></li>
+            </ul>
+          </div>
+
+          <div class="section">
+            <h3>Prayer Requests</h3>
+            <ul>
+              <li>Safe travels for Frank back to Billings</li>
+              <li>Intentionality and not remaining neutral — feeling empowered to do/say what's right</li>
+              <li>Solid week for the fellas in work/school</li>
+              <li>Commander's Football Team</li>
+            </ul>
+          </div>
+
+        </div>
+      </details>
+
+      or <div id="wednesday-list"> section below,
      matching whichever day the meeting was.
   2. Copy one whole <details class="meeting">...</details> block (including
      the closing tag) and paste it as the FIRST entry in that list (newest on top).
@@ -155,6 +201,8 @@
     font-size:0.96rem;
   }
   .section li::marker{color:var(--accent);}
+  .section a{color:var(--accent);font-weight:600;text-decoration:none;}
+  .section a:hover{text-decoration:underline;}
   .empty-day{
     color:var(--ink-soft);
     font-size:0.95rem;
@@ -188,7 +236,7 @@
   <div class="tab-panel active" id="sunday" >
     <div id="sunday-list">
 
-      <details class="meeting" id="sun-10-4-26" open>
+      <details class="meeting" id="sun-10-4-26">
         <summary>10-4-26 — Chapter 2</summary>
         <div class="meeting-body">
 
