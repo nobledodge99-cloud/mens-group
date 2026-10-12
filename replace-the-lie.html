@@ -366,6 +366,10 @@
     b.classList.add('active');
     $(b.dataset.tab).classList.add('active');
   }));
+  if(location.hash === '#group'){
+    const gb = document.querySelector('[data-tab="tab-group"]');
+    if(gb) gb.click();
+  }
   $('build-btn').addEventListener('click', function(){
     const lie = $('in-lie').value.trim();
     const ref = $('in-ref').value.trim();
