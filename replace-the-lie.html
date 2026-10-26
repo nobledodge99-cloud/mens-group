@@ -398,10 +398,10 @@
     const params = {
       action:'submit',
       name: name.slice(0,80),
-      lie: $('in-lie').value.trim().slice(0,400),
-      ref: $('in-ref').value.trim().slice(0,100),
-      truth: $('in-truth').value.trim().slice(0,1200),
-      declaration: $('in-decl').value.trim().slice(0,400)
+      lie: $('in-lie').value.trim().slice(0,1000),
+      ref: $('in-ref').value.trim().slice(0,120),
+      truth: $('in-truth').value.trim().slice(0,2000),
+      declaration: $('in-decl').value.trim().slice(0,1000)
     };
     const cb = 'sh_' + Date.now();
     const sc = document.createElement('script');
@@ -422,6 +422,7 @@
     sc.onerror = function(){ fail('Could not reach the group Sheet. Check the script is deployed with access set to \u201CAnyone\u201D.'); };
     const q = Object.keys(params).map(k => k + '=' + encodeURIComponent(params[k])).join('&');
     sc.src = SCRIPT_URL + (SCRIPT_URL.indexOf('?') > -1 ? '&' : '?') + q + '&callback=' + cb;
+    if(sc.src.length > 7500){ fail('That one is too long to share. Trim the truth or declaration a bit and try again.'); return; }
     document.body.appendChild(sc);
   });
 
